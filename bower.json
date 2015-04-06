@@ -18,6 +18,9 @@
     "knockout": "~3.3.0",
     "fontawesome": "~4.3.0",
     "requirejs": "~2.1.17",
-    "requirejs-plugin-bower": "*"
+    "requirejs-plugin-bower": "*",
+    "metro-bootstrap": "*",
+    "bootstrap-tagsinput": "~0.4.2",
+    "webfont-notosans": "~0.1.0"
   }
 }

@@ -1,4 +1,4 @@
-define(['knockout'], function(ko) {
+define(['knockout', 'bootstrap-tagsinput'], function(ko) {
 
 	'use strict';
 

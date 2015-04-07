@@ -3,7 +3,7 @@ require.config({
         baseUrl: '../../bower_components',
         root: '../../bower.json',
         extensions: 'js|css',
-        ignore: 'requirejs',
+        ignore: 'requirejs|font-awesome',
         auto: true,
         deps: ['dependencies']
     },

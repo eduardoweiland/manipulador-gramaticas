@@ -108,42 +108,5 @@
     </footer>
 
     <script type="application/javascript" src="../bower_components/requirejs/require.js" data-main="js/main"></script>
-<!--    <script type="application/javascript" src="vendor/js/jquery-2.1.3.min.js"></script>
-    <script type="application/javascript" src="vendor/js/bootstrap-tagsinput.min.js"></script>
-    <script type="application/javascript" src="vendor/grammar.js"></script>
-    <script type="application/javascript" src="js/grammarhandler.js"></script>
--->
-    <script type="application/javascript">
-        jQuery(function($) {
-            $('.tags').tagsinput({
-                confirmKeys: [13, 32, 44]
-            });
-
-            $('.bootstrap-tagsinput input')
-                .focus(function() {
-                    $(this).parent().addClass('focus');
-                })
-                .blur(function() {
-                    $(this).parent().removeClass('focus');
-                });
-
-            $('#clear').click(function() {
-                window.location.reload(true);
-            });
-
-            $('#run').click(function() {
-                var $run = $(this);
-                $run.addClass('running').prop('disabled', true);
-
-                // Começa a executar depois da animação do botão
-                setTimeout(function() {
-                    setTimeout(function(){
-                        /* aqui vai terminar de executar */
-                        $run.removeClass('running').prop('disabled', false);
-                    }, 5000);
-                }, 1000);
-            });
-        });
-    </script>
 </body>
 </html>

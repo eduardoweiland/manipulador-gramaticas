@@ -1,11 +1,36 @@
-define(['knockout', 'bootstrap-tagsinput'], function(ko) {
+require(['knockout', 'jquery', 'bootstrap-tagsinput'], function(ko, $) {
+    'use strict';
 
-	'use strict';
+    $(function() {
+        $('.tags').tagsinput({
+            confirmKeys: [13, 32, 44]
+        });
 
-	function App() {}
+        $('.bootstrap-tagsinput input')
+            .focus(function() {
+                $(this).parent().addClass('focus');
+            })
+            .blur(function() {
+                $(this).parent().removeClass('focus');
+            });
 
-	// Exporta o módulo
-	return App;
+        $('#clear').click(function() {
+            window.location.reload(true);
+        });
+
+        $('#run').click(function() {
+            var $run = $(this);
+            $run.addClass('running').prop('disabled', true);
+
+            // Começa a executar depois da animação do botão
+            setTimeout(function() {
+                setTimeout(function(){
+                    /* aqui vai terminar de executar */
+                    $run.removeClass('running').prop('disabled', false);
+                }, 5000);
+            }, 1000);
+        });
+    });
 
 });
 

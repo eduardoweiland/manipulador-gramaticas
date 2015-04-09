@@ -21,6 +21,7 @@
     "requirejs-plugin-bower": "*",
     "metro-bootstrap": "*",
     "bootstrap-tagsinput": "~0.4.2",
-    "webfont-notosans": "~0.1.0"
+    "webfont-notosans": "~0.1.0",
+    "require-css": "~0.1.8"
   }
 }

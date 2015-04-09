@@ -9,6 +9,7 @@ require.config({
     },
     paths: {
         'text': '../../bower_components/requirejs-text/text',
+        'css': '../../bower_components/require-css/css',
         'json': '../../bower_components/requirejs-plugins/src/json',
         'bower': '../../bower_components/requirejs-plugin-bower/src/bower'
     }

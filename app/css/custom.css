@@ -42,8 +42,8 @@ body, h1, h2, h3, h4, h5, h6 {
 /*****************************************/
 
 .bootstrap-tagsinput {
-    display: block;
-    border-radius: 0;
+    display: block !important;
+    border-radius: 0 !important;
     min-height: 34px;
     transition: border-color 0.15s ease-in-out 0s,
                 box-shadow 0.15s ease-in-out 0s;

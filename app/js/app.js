@@ -1,4 +1,4 @@
-require(['knockout', 'jquery', 'bootstrap-tagsinput'], function(ko, $) {
+require(['knockout', 'jquery', 'grammar', 'bootstrap-tagsinput'], function(ko, $, Grammar) {
     'use strict';
 
     $(function() {
@@ -30,6 +30,8 @@ require(['knockout', 'jquery', 'bootstrap-tagsinput'], function(ko, $) {
                 }, 5000);
             }, 1000);
         });
+
+        ko.applyBindings(new Grammar());
     });
 
 });

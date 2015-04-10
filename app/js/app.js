@@ -32,7 +32,10 @@ require(['knockout', 'jquery', 'grammar', 'bootstrap-tagsinput'], function(ko, $
         });
 
         ko.applyBindings(new Grammar());
-    });
 
+        setTimeout(function() {
+            $('.overlay').fadeOut().then().remove();
+        }, 1500);
+    });
 });
 

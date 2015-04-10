@@ -10,18 +10,19 @@
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
 </head>
 <body>
+    <div class="overlay">
+        <div class="loading">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
     <header class="container-fluid navbar navbar-inverse navbar-static-top">
         <div class="navbar-brand">Manipulador de Gramáticas</div>
         <div class="pull-right">
-            <button class="btn btn-info navbar-btn" id="clear">
-                <i class="fa fa-2x fa-pencil"></i>
-                <span class="text-large">LIMPAR</span>
-            </button>
-            <button class="btn btn-success navbar-btn no-overflow" id="run">
-                <i class="fa fa-2x fa-fw fa-space-shuttle"></i>
-                <i class="fa fa-2x fa-fw fa-spinner fa-pulse"></i>
-                <span class="text-large">EXECUTAR</span>
-            </button>
+            <a href="https://github.com/eduardoweiland/manipulador-gramaticas" class="btn btn-info navbar-btn">
+                <i class="fa fa-code"></i> Código Fonte
+            </a>
         </div>
     </header>
     <div class="container">
@@ -30,7 +31,7 @@
                 <div class="panel-heading clearfix">
                     <h3 class="panel-title pull-left">Entrada da Gramática</h3>
                 </div>
-                <form class="panel-body">
+                <div class="panel-body">
                     <div class="form-group">
                         <label>Símbolos não terminais</label>
                         <select multiple="multiple" class="tags" name="non_terminal_symbols"></select>
@@ -66,8 +67,11 @@
                                 </div>
                             </div>
                         </div>
+                        <button class="btn btn-success btn-lg">
+                            <i class="fa fa-plus"></i> ADICIONAR
+                        </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
         <div class="col-sm-6" id="output">

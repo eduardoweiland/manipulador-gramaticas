@@ -10,27 +10,9 @@ body, h1, h2, h3, h4, h5, h6 {
     font-family: 'Noto Sans', sans-serif;
 }
 
-.navbar-brand {
-	height: 100%;
-	padding: 19px;
-}
-
 .panel-title {
 	font-weight: normal;
 	color: #FFFFFF;
-}
-
-.no-overflow {
-	overflow: hidden;
-}
-
-.navbar-btn .fa {
-    vertical-align: -10%;
-}
-
-.text-large {
-    font-size: 16px;
-    font-weight: bold;
 }
 
 .input-group-btn {
@@ -114,4 +96,57 @@ body, h1, h2, h3, h4, h5, h6 {
 .production-rule .right {
     width: 80%;
     width: calc(100% - 78px);
+}
+
+
+/*****************************************/
+/**          ANIMAÇÃO LOADING           **/
+/*****************************************/
+
+.overlay {
+    position: fixed;
+    z-index: 999999;
+    background: #fff;
+    background: rgba(255, 255, 255, 0.7);
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+}
+
+.loading {
+    text-align: center;
+    width: 100%;
+    margin: 200px 0;
+}
+
+.loading .bar {
+    background-color: #fff;
+    border: 2px solid #fff;
+    display: inline-block;
+    height: 40px;
+    width: 20px;
+    margin: 0 3px;
+    animation-name: bounce_bar;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+}
+
+.loading .bar:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.loading .bar:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+@keyframes bounce_bar {
+    25% {
+        transform: scale(1.4);
+    }
+    50% {
+        border-color: #252525;
+        background-color: #a7a7a7;
+        transform: scale(1);
+    }
 }

@@ -11,8 +11,10 @@ define(['knockout'], function(ko) {
     }
 
     /**
-     * Retorna a intersecção entre dois array.
+     * Retorna a intersecção entre os arrays `a` e `b`.
      *
+     * @param {array} a
+     * @param {array} b
      * @private
      */
     function arrayIntersection(a, b) {
@@ -124,47 +126,5 @@ define(['knockout'], function(ko) {
 
     return Grammar;
 
-    (function executeTests() {
-        'use strict';
-
-        function test(desc, fn) {
-            console.log('========================================');
-            console.log(' Testando ' + desc);
-            fn();
-        }
-
-        test('entrada de uma gramática válida', function() {
-            var gramatica = new Grammar();
-            gramatica.nonTerminalSymbols    = ['S', 'A', 'B', 'C'];
-            gramatica.terminalSymbols       = ['a', 'b'];
-            gramatica.productionSetSymbol   = 'P';
-            gramatica.productionStartSymbol = 'S';
-
-            var valid = gramatica.validate();
-            console.log('Gramática ' + (valid ? '' : 'não ') + 'é válida');
-
-            if (!valid) {
-                console.log('Erros encontrados:');
-                console.log(gramatica.getErrors());
-            }
-        });
-
-        test('entrada de uma gramática inválida', function() {
-            var gramatica = new Grammar();
-            gramatica.nonTerminalSymbols    = ['S', 'X', 'b', 'C'];
-            gramatica.terminalSymbols       = ['a', 'b', 'S'];
-            gramatica.productionSetSymbol   = 'K';
-            gramatica.productionStartSymbol = 'S';
-
-            var valid = gramatica.validate();
-            console.log('Gramática ' + (valid ? '' : 'não ') + 'é válida');
-
-            if (!valid) {
-                console.log('Erros encontrados:');
-                console.log(gramatica.getErrors());
-            }
-        });
-
-    })();
 });
 

@@ -34,18 +34,8 @@ define(['knockout'], function(ko) {
             this.productionSetSymbol   = ko.observable('');
             this.productionStartSymbol = ko.observable('');
 
-            this.formalism = ko.pureComputed(function() {
-                var str = GRAMMAR_SYMBOL + '('
-                        + '{' + this.nonTerminalSymbols().join(', ') + '}, '
-                        + '{' + this.terminalSymbols()   .join(', ') + '}, '
-                        + this.productionSetSymbol() + ', '
-                        + this.productionStartSymbol() + ')';
-
-                return str;
-            }, this);
-
-            // Erros de validação.
-            this.errors = null;
+            this.validationErrors = ko.pureComputed(this.validate, this);
+            this.formalism = ko.pureComputed(this.toFormalismString, this);
         },
 
         /**
@@ -69,13 +59,13 @@ define(['knockout'], function(ko) {
 
             // 2.1. Símbolo de início de produção deve ser não terminal
             if (nt.indexOf(s) === -1) {
-                err.push('O símbolo de início de produção (' + s + ') não está '
+                err.push('O símbolo de início de produção não está '
                         + 'entre os símbolos não terminais.');
             }
 
             // 2.2. Símbolo de início de produção NÃO deve ser terminal
             if (t.indexOf(s) > -1) {
-                err.push('O símbolo de início de produção (' + s + ') não pode '
+                err.push('O símbolo de início de produção não pode '
                         + 'estar entre os símbolos terminais.');
             }
 
@@ -85,24 +75,8 @@ define(['knockout'], function(ko) {
             // 4. Não deve existir mais de uma produção para o mesmo símbolo
             // TODO
 
-            // Salva a lista de erros de validação e retorna o estado.
-            this.errors = err.length ? err : null;
-            return !err.length;
-        },
-
-        /**
-         * Retorna os erros encontados durante a validação da gramática.
-         *
-         * @return {string[]} Array com as mensagens dos erros encontrados
-         * durante a última validação executada.
-         * @throws {Error} Se a gramática não possui erros para retornar.
-         */
-        getErrors: function() {
-            if (this.errors === null) {
-                throw new Error('Nenhum erro na gramática.');
-            }
-
-            return this.errors;
+            // Retorna a lista de erros de validação.
+            return err;
         },
 
         /**
@@ -113,18 +87,19 @@ define(['knockout'], function(ko) {
          * @notes Esse método assume que a gramática é válida.
          */
         toFormalismString: function() {
-            var str = GRAMMAR_SYMBOL + '('
-                    + '{' + this.nonTerminalSymbols().join(', ') + '}, '
-                    + '{' + this.terminalSymbols()   .join(', ') + '}, '
-                    + this.productionSetSymbol() + ', '
-                    + this.productionStartSymbol() + ')';
+            var nt = this.nonTerminalSymbols().join(', '),
+                t  = this.terminalSymbols()   .join(', '),
+                p  = this.productionSetSymbol(),
+                s  = this.productionStartSymbol();
 
-            return str;
+            if (nt && t && p && s) {
+                return GRAMMAR_SYMBOL + '({' + nt + '}, {' + t + '}, ' + p + ', ' + s + ')';
+            }
+
+            return '';
         }
 
     };    
 
     return Grammar;
-
 });
-

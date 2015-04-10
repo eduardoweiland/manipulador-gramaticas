@@ -34,19 +34,19 @@
                 <div class="panel-body">
                     <div class="form-group">
                         <label>Símbolos não terminais</label>
-                        <select multiple="multiple" class="tags" name="non_terminal_symbols"></select>
+                        <select data-bind="selectedOptions: nonTerminalSymbols" multiple="multiple" class="tags"></select>
                     </div>
                     <div class="form-group">
                         <label>Símbolos terminais</label>
-                        <select multiple="multiple" class="tags" name="terminal_symbols" data-bind="options: terminalSymbols, selectedOptions: terminalSymbols"></select>
+                        <select data-bind="selectedOptions: terminalSymbols" multiple="multiple" class="tags"></select>
                     </div>
                     <div class="form-group">
                         <label>Símbolo do conjunto de produções</label>
-                        <input data-bind="value: productionSetSymbol" class="form-control" type="text" name="production_set_symbol" placeholder="Exemplo: P" />
+                        <input data-bind="value: productionSetSymbol" class="form-control" type="text" placeholder="Exemplo: P" />
                     </div>
                     <div class="form-group">
                         <label>Símbolo de início das produções</label>
-                        <input data-bind="value: productionStartSymbol" class="form-control" type="text" name="production_start_symbol" placeholder="Exemplo: S" />
+                        <input data-bind="value: productionStartSymbol" class="form-control" type="text" placeholder="Exemplo: S" />
                     </div>
                     <div class="form-group">
                         <label>Conjunto de produções</label>
@@ -75,21 +75,28 @@
             </div>
         </div>
         <div class="col-sm-6" id="output">
-            <div class="panel panel-success">
+            <div class="panel panel-danger">
                 <div class="panel-heading">
                     <h3 class="panel-title">Validação da Gramática</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="placeholder text-muted text-center">Ainda não executado</div>
+                    <div data-bind="foreach: validationErrors">
+                        <div class="alert alert-danger text-center" role="alert" data-bind="text: $data"></div>
+                    </div>
+                    <div data-bind="visible: validationErrors().length === 0" class="alert alert-success text-center" role="alert">
+                        Nenhum erro encontrado na gramática!
+                    </div>
                 </div>
             </div>
-            <div class="panel panel-danger">
+            <div class="panel panel-success">
                 <div class="panel-heading">
                     <h3 class="panel-title">Formalismo da Gramática</h3>
                 </div>
                 <div class="panel-body">
-                    <div data-bind="text: formalism"></div>
-                    <div class="placeholder text-muted text-center">Ainda não executado</div>
+                    <div class="text-muted text-center" data-bind="visible: !formalism">
+                        Complete a definição da gramática para ver o seu formalismo aqui.
+                    </div>
+                    <pre data-bind="visible: formalism, text: formalism"></pre>
                 </div>
             </div>
             <div class="panel panel-info">

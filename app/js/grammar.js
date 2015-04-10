@@ -1,4 +1,4 @@
-define(['knockout'], function(ko) {
+define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     'use strict';
 
     var GRAMMAR_SYMBOL = 'G';
@@ -33,6 +33,7 @@ define(['knockout'], function(ko) {
             this.terminalSymbols       = ko.observableArray([]);
             this.productionSetSymbol   = ko.observable('');
             this.productionStartSymbol = ko.observable('');
+            this.productionRules       = ko.observableArray([new ProductionRule()]);
 
             this.validationErrors = ko.pureComputed(this.validate, this);
             this.formalism = ko.pureComputed(this.toFormalismString, this);
@@ -97,6 +98,20 @@ define(['knockout'], function(ko) {
             }
 
             return '';
+        },
+
+        addProductionRule: function() {
+            this.productionRules.push(new ProductionRule());
+        },
+
+        removeRule: function(rule) {
+            var rules = this.productionRules();
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                if (rule === rules[i]) {
+                    this.productionRules.splice(i, 1);
+                    break;
+                }
+            }
         }
 
     };    

@@ -5,9 +5,24 @@ de Santa Cruz do Sul ([UNISC][]).
 
 ## O trabalho
 
-A atividade proposta é desenvolver uma ferramenta para criar uma gramática, a
-qual deveria ser validada e classificada, exibir o formalismo da gramática e
-também gerar algumas sentenças a partir dela.
+O trabalho é dividido em duas partes. A primeira delas consiste em criar um
+**manipulador de gramáticas** que permita criar interativamente uma gramática
+do tipo *regular* ou do tipo *livre de contexto*. A segunda parte é a criação
+de um **reconhecedor** do tipo *autômato finito*, capaz de reconhecer as
+sentenças geradas com a gramática criada na primeira parte.
+
+O manipulador de gramática deve permitir a entrada de uma gramática qualquer
+pelo usuário, através de campos para a definição dos símbolos **não terminais**
+e **terminais**, o símbolo de **início de produção** e todo o **conjunto de
+produções**. A partir dessas entradas, é esperado que o programa verifique se
+a gramática entrada é válida, exiba o seu formalismo, classifique-a entre
+**Gramática Regular** ou **Gramática Livre de Contexto** e gere automaticamente
+duas sentenças, no mínimo, para essa gramática.
+
+O reconhecedor deve ser desenvolvido como um **autômato finito** e representado
+através de uma **tabela de transição de estados**, que deve ser editável. O
+autômato deve demonstrar passo-a-passo o processo de reconhecimento para as
+sentenças geradas pelo manipulador de gramática.
 
 ## Licença
 

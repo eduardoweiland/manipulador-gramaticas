@@ -1,0 +1,73 @@
+\documentclass[12pt]{article}
+
+\usepackage{sbc-template}     % Modelo de relatório SBC
+\usepackage[utf8]{inputenc}   % Codificação de entrada UTF-8
+\usepackage[T1]{fontenc}      % Codificação de fonte: T1
+\usepackage[brazil]{babel}    % Idioma português brasileiro
+\usepackage{graphicx}         % Inclusão de imagens externas
+\usepackage{minted}           % Destaque de sintaxe de código-fonte
+\usepackage{caption}          % Legendas para imagens, tabelas, listagens, ...
+\usepackage{hyperref}         % Referências em forma de links na saída em PDF
+
+\title{Manipulador de Gramáticas Regulares e Livres de Contexto}
+
+\author{Eduardo Weiland\inst{1}}
+\address{Curso de Ciência da Computação -- Universidade de Santa Cruz do Sul (UNISC)\\
+  Santa Cruz do Sul -- RS -- Brasil
+  \email{eduardoweiland@mx2.unisc.br}
+}
+
+% ===========================================
+% Configurações para listagens/código-fonte
+% -------------------------------------------
+\newcommand{\codefontsize}{\footnotesize}
+\renewcommand\listingscaption{Listagem}
+\providecommand*{\listingautorefname}{Listagem}
+
+\newmintedfile{js}{linenos,numbersep=5pt,frame=leftline,framesep=2mm,fontsize=\codefontsize}
+
+% http://tex.stackexchange.com/questions/12428/code-spanning-over-two-pages-with-minted-inside-listing-with-caption
+\newenvironment{code}{\captionsetup{type=listing}}{}
+
+% ===========================================
+% Configurações de links na saída em PDF
+% -------------------------------------------
+\hypersetup{
+  pdftitle={Manipulador de Gramáticas Regulares e Livres de Contexto},
+  pdfauthor={Eduardo Weiland},
+  pdfcreator={\LaTeX},
+  pdfsubject={Manipulador de Gramáticas Regulares e Livres de Contexto (Trabalho de Linguagens Formais UNISC 2015/1)},
+  pdfproducer={LaTeX},
+  colorlinks=true,
+  linkcolor=blue,
+  citecolor=blue,
+  filecolor=blue,
+  urlcolor=blue,
+  bookmarksdepth=4
+}
+
+\begin{document}
+
+\maketitle
+
+\begin{resumo}
+  Este artigo relata as etapas do desenvolvimento de uma ferramenta para manipulação de gramáticas regulares e livres
+  de contexto, desenvolvido na disciplina de Linguagens Formais da Universidade de Santa Cruz do Sul, no primeiro
+  semestre de 2015.
+\end{resumo}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Manipulador de Gramáticas}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Desenvolvimento}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Conclusão}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\end{document}

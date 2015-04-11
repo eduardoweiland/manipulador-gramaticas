@@ -1,1 +1,10 @@
 /bower_components
+/doc/*.aux
+/doc/*.fdb_latexmk
+/doc/*.fls
+/doc/*.log
+/doc/*.out
+/doc/*.pdf
+/doc/*.pyg
+/doc/*.synctex.gz
+/doc/*.tex~

@@ -40,7 +40,8 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .bootstrap-tagsinput input {
     margin: 0 6px;
-    padding: 0;
+    padding: 0.2em 0.6em 0.3em;
+    width: auto !important;
 }
 
 /*****************************************/
@@ -96,6 +97,24 @@ body, h1, h2, h3, h4, h5, h6 {
 .production-rule .right {
     width: 80%;
     width: calc(100% - 78px);
+}
+
+.production-rule .bootstrap-tagsinput .tag {
+    background: none;
+    color: #333;
+    font-weight: normal;
+    font-size: 100%;
+    border-right: 1px solid #888;
+    margin-right: 0;
+    padding: 0 4px 0 0;
+}
+
+.production-rule .bootstrap-tagsinput:not(.focus) .tag:last-of-type {
+    border-right: none;
+}
+
+.production-rule .bootstrap-tagsinput .tag [data-role="remove"] {
+    display: none;
 }
 
 

@@ -9,6 +9,14 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     var GRAMMAR_SYMBOL = 'G';
 
     /**
+     * Indentação utilizada para as regras de produção dentro do conjunto, na
+     * representação do formalismo da gramática.
+     *
+     * @const
+     */
+    var INDENT = '    ';
+
+    /**
      * Representação de uma gramática regular ou livre de contexto.
      *
      * @class
@@ -88,20 +96,29 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
         },
 
         /**
-         * Monta a string que representa o formalismo da gramática, sem incluir
+         * Monta a string que representa o formalismo da gramática, incluindo
          * o conjunto de regras de produção.
          *
          * @return {string} A representação formal da gramática.
-         * @notes Esse método assume que a gramática é válida.
          */
         toFormalismString: function() {
             var nt = this.nonTerminalSymbols().join(', '),
                 t  = this.terminalSymbols()   .join(', '),
                 p  = this.productionSetSymbol(),
-                s  = this.productionStartSymbol();
+                s  = this.productionStartSymbol(),
+                pr = [];
 
-            if (nt && t && p && s) {
-                return GRAMMAR_SYMBOL + '({' + nt + '}, {' + t + '}, ' + p + ', ' + s + ')';
+            var rules = this.productionRules(), f;
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                f = rules[i].toFormalismString();
+                if (f) {
+                    pr.push(INDENT + f);
+                }
+            }
+
+            if (nt && t && p && s && pr.length) {
+                return GRAMMAR_SYMBOL + ' = ({' + nt + '}, {' + t + '}, ' + p + ', ' + s + ')\n'
+                        + 'P = {\n' + pr.join(',\n') + '\n}';
             }
 
             return '';

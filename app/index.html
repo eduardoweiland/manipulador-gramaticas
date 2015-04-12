@@ -93,10 +93,10 @@
                     <h3 class="panel-title">Formalismo da Gramática</h3>
                 </div>
                 <div class="panel-body">
-                    <div class="text-muted text-center" data-bind="visible: !formalism">
+                    <div class="text-muted text-center" data-bind="visible: !formalism()">
                         Complete a definição da gramática para ver o seu formalismo aqui.
                     </div>
-                    <pre data-bind="visible: formalism, text: formalism"></pre>
+                    <pre data-bind="visible: formalism(), text: formalism"></pre>
                 </div>
             </div>
             <div class="panel panel-info">

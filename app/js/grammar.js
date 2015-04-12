@@ -1,10 +1,17 @@
 define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     'use strict';
 
+    /**
+     * Símbolo utilizado para representar a gramática no formalismo.
+     *
+     * @const
+     */
     var GRAMMAR_SYMBOL = 'G';
 
     /**
-     * @class Grammar
+     * Representação de uma gramática regular ou livre de contexto.
+     *
+     * @class
      */
     function Grammar() {
         this.init.apply(this, arguments);
@@ -26,7 +33,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     Grammar.prototype = {
 
         /**
-         * @constructor
+         * @constructs
          */
         init: function() {
             this.nonTerminalSymbols    = ko.observableArray([]);
@@ -100,10 +107,18 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             return '';
         },
 
+        /**
+         * Adiciona uma nova regra de produção à gramática.
+         */
         addProductionRule: function() {
             this.productionRules.push(new ProductionRule());
         },
 
+        /**
+         * Remove uma regra anteriormente adicionada à gramática.
+         *
+         * @param {ProductionRule} rule Regra de produção para ser removida.
+         */
         removeRule: function(rule) {
             var rules = this.productionRules();
             for (var i = 0, l = rules.length; i < l; ++i) {

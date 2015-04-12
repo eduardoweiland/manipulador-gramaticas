@@ -27,7 +27,12 @@ sentenças geradas pelo manipulador de gramática.
 ## Licença
 
 Este trabalho está disponível sob a licença MIT. Veja o arquivo LICENSE para
-detalhes.
+ler o texto completo da licença.
+
+Este trabalho utiliza outras bibliotecas e ferramentas de terceiros, e cada um
+deles possui sua própria licença que pode ser diferente da utilizada neste
+trabalho. Consulte a documentação dessas bibliotecas para saber quais licenças
+são utilizadas por cada uma delas.
 
 
 [UNISC]: http://www.unisc.br "Universidade de Santa Cruz do Sul"

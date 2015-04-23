@@ -74,13 +74,13 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             }
 
             // 2.1. Símbolo de início de produção deve ser não terminal
-            if (nt.indexOf(s) === -1) {
+            if (s && nt.indexOf(s) === -1) {
                 err.push('O símbolo de início de produção não está '
                         + 'entre os símbolos não terminais.');
             }
 
             // 2.2. Símbolo de início de produção NÃO deve ser terminal
-            if (t.indexOf(s) > -1) {
+            if (s && t.indexOf(s) > -1) {
                 err.push('O símbolo de início de produção não pode '
                         + 'estar entre os símbolos terminais.');
             }

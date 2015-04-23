@@ -8,3 +8,4 @@
 /doc/*.pyg
 /doc/*.synctex.gz
 /doc/*.tex~
+/nbproject

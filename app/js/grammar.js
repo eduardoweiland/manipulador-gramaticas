@@ -118,7 +118,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
 
             if (nt && t && p && s && pr.length) {
                 return GRAMMAR_SYMBOL + ' = ({' + nt + '}, {' + t + '}, ' + p + ', ' + s + ')\n'
-                        + 'P = {\n' + pr.join(',\n') + '\n}';
+                        + p + ' = {\n' + pr.join(',\n') + '\n}';
             }
 
             return '';

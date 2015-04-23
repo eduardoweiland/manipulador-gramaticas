@@ -10,7 +10,7 @@
   "private": true,
   "ignore": [
     "**/.*",
-    "bower_components"
+    "app/libs"
   ],
   "dependencies": {
     "bootstrap": "~3.3.4",
@@ -23,5 +23,8 @@
     "bootstrap-tagsinput": "~0.4.2",
     "webfont-notosans": "~0.1.0",
     "require-css": "~0.1.8"
+  },
+  "resolutions": {
+    "bootstrap": "~3.3.4"
   }
 }

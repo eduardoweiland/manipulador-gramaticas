@@ -19,6 +19,10 @@ body, h1, h2, h3, h4, h5, h6 {
     vertical-align: top;
 }
 
+.tab-content {
+    padding: 1.5em 0;
+}
+
 /*****************************************/
 /**       CUSTOMIZAÇÃO TAGS INPUT       **/
 /*****************************************/

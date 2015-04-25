@@ -25,7 +25,7 @@
             </a>
         </div>
     </header>
-    <div class="container">
+    <div class="container hidden" data-bind="css: { hidden: false }">
         <nav role="navigation">
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active">
@@ -38,7 +38,7 @@
         </nav>
         <div class="tab-content">
             <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel">
-                <div class="col-sm-6" id="input">
+                <div class="col-sm-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
                             <h3 class="panel-title pull-left">Entrada da Gramática</h3>
@@ -88,8 +88,11 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-sm-6" id="output">
-                    <div class="panel panel-danger">
+                <div class="col-sm-6">
+                    <div class="alert alert-success text-center" role="alert" data-bind="visible: !completed()">
+                        Complete a definição da gramática e os resultados serão exibidos aqui.
+                    </div>
+                    <div class="panel panel-danger" data-bind="visible: completed">
                         <div class="panel-heading">
                             <h3 class="panel-title">Validação da Gramática</h3>
                         </div>
@@ -102,18 +105,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="panel panel-success">
+                    <div class="panel panel-warning" data-bind="visible: completed">
                         <div class="panel-heading">
                             <h3 class="panel-title">Formalismo da Gramática</h3>
                         </div>
                         <div class="panel-body">
-                            <div class="text-muted text-center" data-bind="visible: !formalism()">
-                                Complete a definição da gramática para ver o seu formalismo aqui.
-                            </div>
-                            <pre data-bind="visible: formalism(), text: formalism"></pre>
+                            <pre data-bind="text: formalism"></pre>
                         </div>
                     </div>
-                    <div class="panel panel-info">
+                    <div class="panel panel-info" data-bind="visible: completed">
                         <div class="panel-heading">
                             <h3 class="panel-title">Classificação da Gramática</h3>
                         </div>
@@ -121,7 +121,7 @@
                             <div class="placeholder text-muted text-center">Ainda não executado</div>
                         </div>
                     </div>
-                    <div class="panel panel-warning">
+                    <div class="panel panel-success" data-bind="visible: completed">
                         <div class="panel-heading">
                             <h3 class="panel-title">Sentenças Geradas</h3>
                         </div>

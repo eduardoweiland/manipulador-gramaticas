@@ -26,8 +26,12 @@ define(['knockout'], function(ko) {
 
         /**
          * @constructs
+         *
+         * @param {Grammar} grammar Gramática à qual a regra de produção pertence.
          */
-        init: function() {
+        init: function(grammar) {
+            this.grammar = grammar;
+
             this.leftSide  = ko.observable('');
             this.rightSide = ko.observableArray([]);
         },
@@ -51,6 +55,15 @@ define(['knockout'], function(ko) {
             }
 
             return '';
+        },
+
+        /**
+         * Verifica se a definição da regra de produção está completa (todas as informações inseridas).
+         *
+         * @return boolean Se a regra de produção está completamente definida.
+         */
+        isCompleted: function() {
+            return ((this.leftSide().length > 0) && (this.rightSide().length > 0));
         }
 
     };

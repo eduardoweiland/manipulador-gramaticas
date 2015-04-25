@@ -48,10 +48,11 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             this.terminalSymbols       = ko.observableArray([]);
             this.productionSetSymbol   = ko.observable('');
             this.productionStartSymbol = ko.observable('');
-            this.productionRules       = ko.observableArray([new ProductionRule()]);
+            this.productionRules       = ko.observableArray([new ProductionRule(this)]);
 
-            this.validationErrors = ko.pureComputed(this.validate, this);
-            this.formalism = ko.pureComputed(this.toFormalismString, this);
+            this.completed        = ko.pureComputed(this.isCompleted,       this);
+            this.validationErrors = ko.pureComputed(this.validate,          this);
+            this.formalism        = ko.pureComputed(this.toFormalismString, this);
         },
 
         /**
@@ -128,7 +129,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
          * Adiciona uma nova regra de produção à gramática.
          */
         addProductionRule: function() {
-            this.productionRules.push(new ProductionRule());
+            this.productionRules.push(new ProductionRule(this));
         },
 
         /**
@@ -144,6 +145,28 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
                     break;
                 }
             }
+        },
+
+        /**
+         * Verifica se a definição da gramática está completa (todas as informações inseridas).
+         *
+         * @return boolean Se a gramática está completamente definida.
+         */
+        isCompleted: function() {
+            var completed = true,
+                rules = this.productionRules();
+
+            completed &= this.nonTerminalSymbols()   .length > 0;
+            completed &= this.terminalSymbols()      .length > 0;
+            completed &= this.productionSetSymbol()  .length > 0;
+            completed &= this.productionStartSymbol().length > 0;
+            completed &= this.productionRules()      .length > 0;
+
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                completed &= rules[i].isCompleted();
+            }
+
+            return completed;
         }
 
     };    

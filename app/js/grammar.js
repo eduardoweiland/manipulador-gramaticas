@@ -17,6 +17,34 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     var INDENT = '    ';
 
     /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASSES = {
+        UNRESTRICTED:      0,
+        CONTEXT_SENSITIVE: 1,
+        CONTEXT_FREE:      2,
+        REGULAR:           3
+    };
+
+    /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASS_NAMES = [
+        'Irrestrita',
+        'Sensível ao Contexto',
+        'Livre de Contexto',
+        'Regular'
+    ];
+
+    /**
      * Representação de uma gramática regular ou livre de contexto.
      *
      * @class
@@ -53,6 +81,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             this.completed        = ko.pureComputed(this.isCompleted,       this);
             this.validationErrors = ko.pureComputed(this.validate,          this);
             this.formalism        = ko.pureComputed(this.toFormalismString, this);
+            this.classification   = ko.pureComputed(this.getGrammarClass,   this);
         },
 
         /**
@@ -123,6 +152,23 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             }
 
             return '';
+        },
+
+        // TODO: doc
+        getGrammarClass: function() {
+            var clazz = CLASSES.REGULAR,
+                rules = this.productionRules(),
+                nt    = this.nonTerminalSymbols();
+
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                if (!rules[i].isRegular()) {
+                    --clazz;
+                    break;
+                }
+            }
+            // TODO: outras classes
+
+            return CLASS_NAMES[clazz];
         },
 
         /**

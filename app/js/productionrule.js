@@ -64,6 +64,40 @@ define(['knockout'], function(ko) {
          */
         isCompleted: function() {
             return ((this.leftSide().length > 0) && (this.rightSide().length > 0));
+        },
+
+        // TODO: doc
+        isUnrestricted: function() {
+            // TODO
+        },
+
+        // TODO: doc
+        isContextSensitive: function() {
+            // TODO
+        },
+
+        // TODO: doc
+        isContextFree: function() {
+            // TODO
+        },
+
+        // TODO: doc
+        isRegular: function() {
+            // Lado esquerdo deve ser um e apenas um não terminal
+            if (this.grammar.nonTerminalSymbols().indexOf(this.leftSide()) === -1) {
+                return false;
+            }
+
+            // Lado direito pode ser um terminal ou um terminal seguido de um não terminal
+            var right = this.rightSide();
+            for (var i = 0, l = right.length; i < l; ++i) {
+                if (this.grammar.terminalSymbols().indexOf(right[i]) === -1) {
+                    // TODO: verificar se pode ser um terminal seguido de não terminal
+                    return false;
+                }
+            }
+
+            return true;
         }
 
     };

@@ -21,11 +21,30 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .tab-content {
     padding: 1.5em 0;
+    overflow-x: auto;
+}
+
+.table th {
+    background-color: #efefef;
 }
 
 footer {
     margin-bottom: 15px;
 }
+
+#recognizer table {
+    width: auto;
+    margin: 0 auto;
+}
+
+#recognizer table th,
+#recognizer table td {
+    text-align: center;
+}
+#recognizer table th:first-child {
+    text-align: right;
+}
+
 
 /*****************************************/
 /**       CUSTOMIZAÇÃO TAGS INPUT       **/

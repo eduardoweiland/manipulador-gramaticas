@@ -132,6 +132,36 @@
                 </div>
             </div>
             <div id="recognizer" class="tab-pane fade" role="tabpanel">
+                <div class="text-center" style="margin-bottom: 10px;">
+                    <button class="btn btn-sm btn-success" data-bind="click: addSymbol">
+                        <i class="fa fa-plus"></i> ADICIONAR SÍMBOLO
+                    </button>
+                    <button class="btn btn-sm btn-success" data-bind="click: addState">
+                        <i class="fa fa-plus"></i> ADICIONAR ESTADO
+                    </button>
+                </div>
+                <div class="">
+                </div>
+                <table class="table table-bordered">
+                    <tbody>
+                        <tr>
+                            <th>
+                                <div class="text-right">Estados \ Símbolos</div>
+                            </th>
+                            <!-- ko foreach: symbols -->
+                            <th contenteditable data-bind="text: $data"></th>
+                            <!-- /ko -->
+                        </tr>
+                        <!-- ko foreach: states -->
+                        <tr>
+                            <th contenteditable data-bind="text: $data"></th>
+                            <!-- ko foreach: $parent.symbols -->
+                            <td contenteditable data-bind="text: $index"></td>
+                            <!-- /ko -->
+                        </tr>
+                        <!-- /ko -->
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

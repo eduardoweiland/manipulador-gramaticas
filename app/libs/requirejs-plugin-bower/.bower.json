@@ -41,11 +41,11 @@
     "requirejs-text": "~2.0.13",
     "requirejs-plugins": "~1.0.3"
   },
-  "_release": "4edfa0caf7",
+  "_release": "1aff5f5f61",
   "_resolution": {
     "type": "branch",
     "branch": "master",
-    "commit": "4edfa0caf798a14a40e0113a8a45f5d865f4b948"
+    "commit": "1aff5f5f613b1b3a8e1b4160cffdd5347af78904"
   },
   "_source": "git://github.com/RodneyEbanks/requirejs-plugin-bower.git",
   "_target": "*",

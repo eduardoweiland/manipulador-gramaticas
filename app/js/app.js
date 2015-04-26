@@ -7,6 +7,10 @@ require(['knockout', 'jquery', 'grammar', 'ko-tagsinput', 'bootstrap-tagsinput']
     $(function() {
         ko.applyBindings(new Grammar());
 
-        $('.overlay').fadeOut();
+        $('.overlay').removeClass('in');
+        setTimeout(function() {
+            $('.container').addClass('in');
+            $('.overlay').remove();
+        }, 150);
     });
 });

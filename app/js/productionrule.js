@@ -76,9 +76,30 @@ define(['knockout'], function(ko) {
             // TODO
         },
 
-        // TODO: doc
+        /**
+         * Verifica se a regra de produção obedece todas as restrições necessárias para pertencer a uma gramática do
+         * tipo livre de contexto. Para isso, a regra deve obedecer a duas restrições:
+         *
+         *     * O lado esquerdo deve ser um e apenas um símbolo não terminal.
+         *     * O lado direito não aceita a sentença vazia, mas aceita qualquer outro símbolo.
+         *
+         * @returns {Boolean} Se a regra obedece a todas as restrições do tipo livre de contexto.
+         */
         isContextFree: function() {
-            // TODO
+            // Lado esquerdo deve ser um e apenas um não terminal
+            if (this.grammar.nonTerminalSymbols().indexOf(this.leftSide()) === -1) {
+                return false;
+            }
+
+            // Lado direito não pode conter a sentença vazia
+            var right = this.rightSide();
+            for (var i = 0, l = right.length; i < l; ++i) {
+                if (right[i] === EPSILON) {
+                    return false;
+                }
+            }
+
+            return true;
         },
 
         /**

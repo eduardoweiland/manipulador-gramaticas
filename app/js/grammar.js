@@ -154,7 +154,12 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             return '';
         },
 
-        // TODO: doc
+        /**
+         * Verifica a qual classe a gramática que foi definida pertence através da análise do formato das regras de
+         * produção criadas.
+         *
+         * @return {string} O nome da classe à qual a gramática pertence.
+         */
         getGrammarClass: function() {
             var clazz = CLASSES.REGULAR,
                 rules = this.productionRules();
@@ -214,7 +219,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
         /**
          * Verifica se a definição da gramática está completa (todas as informações inseridas).
          *
-         * @return boolean Se a gramática está completamente definida.
+         * @return {boolean} Se a gramática está completamente definida.
          */
         isCompleted: function() {
             var completed = true,

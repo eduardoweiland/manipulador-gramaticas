@@ -66,11 +66,6 @@ define(['knockout'], function(ko) {
             return ((this.leftSide().length > 0) && (this.rightSide().length > 0));
         },
 
-        // TODO: doc
-        isUnrestricted: function() {
-            // TODO
-        },
-
         /**
          * Verifica se a regra de produção obedece todas as restrições necessárias para pertencer a uma gramática do
          * tipo sensível ao contexto. Para isso, a regra deve obedecer a duas restrições:

@@ -157,8 +157,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
         // TODO: doc
         getGrammarClass: function() {
             var clazz = CLASSES.REGULAR,
-                rules = this.productionRules(),
-                nt    = this.nonTerminalSymbols();
+                rules = this.productionRules();
 
             for (var i = 0, l = rules.length; i < l; ++i) {
                 if (!rules[i].isRegular()) {
@@ -166,7 +165,26 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
                     break;
                 }
             }
-            // TODO: outras classes
+
+            // Se falhou na verificação de gramática regular, verifica se é livre de contexto
+            if (clazz === CLASSES.CONTEXT_FREE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextFree()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
+
+            // Se falhou na verificação de gramática livre de contexto, verifica se é sensível ao contexto
+            if (clazz === CLASSES.CONTEXT_SENSITIVE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextSensitive()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
 
             return CLASS_NAMES[clazz];
         },
@@ -215,7 +233,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             return completed;
         }
 
-    };    
+    };
 
     return Grammar;
 });

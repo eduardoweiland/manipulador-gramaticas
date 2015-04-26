@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-define(['knockout', 'productionrule'], function(ko, ProductionRule) {
+define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, utils) {
     'use strict';
 
     /**
@@ -77,19 +77,6 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
         this.init.apply(this, arguments);
     }
 
-    /**
-     * Retorna a intersecção entre os arrays `a` e `b`.
-     *
-     * @param {array} a
-     * @param {array} b
-     * @private
-     */
-    function arrayIntersection(a, b) {
-        return a.filter(function(i) {
-            return b.indexOf(i) > -1;
-        });
-    }
-
     Grammar.prototype = {
 
         /**
@@ -121,7 +108,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
                 s   = this.productionStartSymbol();
 
             // 1. Símbolos terminais e não terminais precisam ser diferentes
-            var intersect = arrayIntersection(nt, t);
+            var intersect = utils.arrayIntersection(nt, t);
             if (intersect.length > 0) {
                 err.push('Existem símbolos não terminais repetidos entre os '
                         + 'símbolos terminais (' + intersect.join(', ') + ').');

@@ -17,6 +17,34 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     var INDENT = '    ';
 
     /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASSES = {
+        UNRESTRICTED:      0,
+        CONTEXT_SENSITIVE: 1,
+        CONTEXT_FREE:      2,
+        REGULAR:           3
+    };
+
+    /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASS_NAMES = [
+        'Irrestrita',
+        'Sensível ao Contexto',
+        'Livre de Contexto',
+        'Regular'
+    ];
+
+    /**
      * Representação de uma gramática regular ou livre de contexto.
      *
      * @class
@@ -48,10 +76,12 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             this.terminalSymbols       = ko.observableArray([]);
             this.productionSetSymbol   = ko.observable('');
             this.productionStartSymbol = ko.observable('');
-            this.productionRules       = ko.observableArray([new ProductionRule()]);
+            this.productionRules       = ko.observableArray([new ProductionRule(this)]);
 
-            this.validationErrors = ko.pureComputed(this.validate, this);
-            this.formalism = ko.pureComputed(this.toFormalismString, this);
+            this.completed        = ko.pureComputed(this.isCompleted,       this);
+            this.validationErrors = ko.pureComputed(this.validate,          this);
+            this.formalism        = ko.pureComputed(this.toFormalismString, this);
+            this.classification   = ko.pureComputed(this.getGrammarClass,   this);
         },
 
         /**
@@ -74,13 +104,13 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             }
 
             // 2.1. Símbolo de início de produção deve ser não terminal
-            if (nt.indexOf(s) === -1) {
+            if (s && nt.indexOf(s) === -1) {
                 err.push('O símbolo de início de produção não está '
                         + 'entre os símbolos não terminais.');
             }
 
             // 2.2. Símbolo de início de produção NÃO deve ser terminal
-            if (t.indexOf(s) > -1) {
+            if (s && t.indexOf(s) > -1) {
                 err.push('O símbolo de início de produção não pode '
                         + 'estar entre os símbolos terminais.');
             }
@@ -118,17 +148,52 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
 
             if (nt && t && p && s && pr.length) {
                 return GRAMMAR_SYMBOL + ' = ({' + nt + '}, {' + t + '}, ' + p + ', ' + s + ')\n'
-                        + 'P = {\n' + pr.join(',\n') + '\n}';
+                        + p + ' = {\n' + pr.join(',\n') + '\n}';
             }
 
             return '';
+        },
+
+        // TODO: doc
+        getGrammarClass: function() {
+            var clazz = CLASSES.REGULAR,
+                rules = this.productionRules();
+
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                if (!rules[i].isRegular()) {
+                    --clazz;
+                    break;
+                }
+            }
+
+            // Se falhou na verificação de gramática regular, verifica se é livre de contexto
+            if (clazz === CLASSES.CONTEXT_FREE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextFree()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
+
+            // Se falhou na verificação de gramática livre de contexto, verifica se é sensível ao contexto
+            if (clazz === CLASSES.CONTEXT_SENSITIVE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextSensitive()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
+
+            return CLASS_NAMES[clazz];
         },
 
         /**
          * Adiciona uma nova regra de produção à gramática.
          */
         addProductionRule: function() {
-            this.productionRules.push(new ProductionRule());
+            this.productionRules.push(new ProductionRule(this));
         },
 
         /**
@@ -144,9 +209,31 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
                     break;
                 }
             }
+        },
+
+        /**
+         * Verifica se a definição da gramática está completa (todas as informações inseridas).
+         *
+         * @return boolean Se a gramática está completamente definida.
+         */
+        isCompleted: function() {
+            var completed = true,
+                rules = this.productionRules();
+
+            completed &= this.nonTerminalSymbols()   .length > 0;
+            completed &= this.terminalSymbols()      .length > 0;
+            completed &= this.productionSetSymbol()  .length > 0;
+            completed &= this.productionStartSymbol().length > 0;
+            completed &= this.productionRules()      .length > 0;
+
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                completed &= rules[i].isCompleted();
+            }
+
+            return completed;
         }
 
-    };    
+    };
 
     return Grammar;
 });

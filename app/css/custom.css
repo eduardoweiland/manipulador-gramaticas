@@ -19,6 +19,14 @@ body, h1, h2, h3, h4, h5, h6 {
     vertical-align: top;
 }
 
+.tab-content {
+    padding: 1.5em 0;
+}
+
+footer {
+    margin-bottom: 15px;
+}
+
 /*****************************************/
 /**       CUSTOMIZAÇÃO TAGS INPUT       **/
 /*****************************************/
@@ -42,36 +50,6 @@ body, h1, h2, h3, h4, h5, h6 {
     margin: 0 6px;
     padding: 0.2em 0.6em 0.3em;
     width: auto !important;
-}
-
-/*****************************************/
-/**           BOTÃO EXECUTAR            **/
-/*****************************************/
-
-#run {
-    position: relative;
-}
-
-#run .fa-space-shuttle {
-	transition: opacity .7s .2s ease-out;
-	position: absolute;
-	left: 12px;
-}
-
-#run .fa-spinner {
-    transition: opacity .7s ease-in-out;
-    opacity: 0;
-    position: relative;
-}
-
-#run.running .fa-space-shuttle {
-	transition: left 1s ease-in, opacity 0s 1s ease-out;
-    left: 200px;
-    opacity: 0
-}
-
-#run.running .fa-spinner {
-    opacity: 1;
 }
 
 /*****************************************/
@@ -126,7 +104,6 @@ body, h1, h2, h3, h4, h5, h6 {
     position: fixed;
     z-index: 999999;
     background: #fff;
-    background: rgba(255, 255, 255, 0.7);
     width: 100%;
     height: 100%;
     top: 0;

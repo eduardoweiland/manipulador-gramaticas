@@ -1,6 +1,6 @@
 require.config({
     bower: {
-        baseUrl: '../../bower_components',
+        baseUrl: '../libs',
         root: '../../bower.json',
         extensions: 'js|css',
         ignore: 'requirejs|font-awesome',
@@ -8,10 +8,10 @@ require.config({
         deps: ['dependencies']
     },
     paths: {
-        'text': '../../bower_components/requirejs-text/text',
-        'css': '../../bower_components/require-css/css',
-        'json': '../../bower_components/requirejs-plugins/src/json',
-        'bower': '../../bower_components/requirejs-plugin-bower/src/bower'
+        'text': '../libs/requirejs-text/text',
+        'css': '../libs/require-css/css',
+        'json': '../libs/requirejs-plugins/src/json',
+        'bower': '../libs/requirejs-plugin-bower/src/bower'
     }
 });
 

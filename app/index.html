@@ -4,13 +4,13 @@
     <meta charset="utf-8" />
     <title>Manipulador de Gramáticas</title>
 
-    <link rel="stylesheet" type="text/css" href="../bower_components/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
-    <link rel="stylesheet" type="text/css" href="../bower_components/metro-bootstrap/dist/css/metro-bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="../bower_components/fontawesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="libs/bootstrap-tagsinput/dist/bootstrap-tagsinput.css" />
+    <link rel="stylesheet" type="text/css" href="libs/metro-bootstrap/dist/css/metro-bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="libs/fontawesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="css/custom.css" />
 </head>
 <body>
-    <div class="overlay">
+    <div class="overlay fade in">
         <div class="loading">
             <div class="bar"></div>
             <div class="bar"></div>
@@ -25,95 +25,113 @@
             </a>
         </div>
     </header>
-    <div class="container">
-        <div class="col-sm-6" id="input">
-            <div class="panel panel-primary">
-                <div class="panel-heading clearfix">
-                    <h3 class="panel-title pull-left">Entrada da Gramática</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="form-group">
-                        <label>Símbolos não terminais</label>
-                        <select data-bind="tagsinput: true, selectedOptions: nonTerminalSymbols" multiple="multiple"></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Símbolos terminais</label>
-                        <select data-bind="tagsinput: true, selectedOptions: terminalSymbols" multiple="multiple"></select>
-                    </div>
-                    <div class="form-group">
-                        <label>Símbolo do conjunto de produções</label>
-                        <input data-bind="value: productionSetSymbol" class="form-control" type="text" placeholder="Exemplo: P" />
-                    </div>
-                    <div class="form-group">
-                        <label>Símbolo de início das produções</label>
-                        <input data-bind="value: productionStartSymbol" class="form-control" type="text" placeholder="Exemplo: S" />
-                    </div>
-                    <div class="form-group">
-                        <label>Conjunto de produções</label>
-                        <div data-bind="foreach: productionRules">
-                            <div class="production-rule clearfix">
-                                <input data-bind="value: leftSide" class="form-control left" type="text" />
-                                <div class="arrow text-center"><i class="fa fa-arrow-right"></i></div>
-                                <div class="input-group right pull-right">
-                                    <select data-bind="tagsinput: true, selectedOptions: rightSide" multiple="multiple"></select>
-                                    <span class="input-group-btn">
-                                        <button data-bind="click: addEmptySentence" class="btn btn-info" type="button" title="Sentença vazia">
-                                            <strong>&epsilon;</strong>
-                                        </button>
-                                        <button data-bind="click: $parent.removeRule.bind($parent)" class="btn btn-danger" type="button" title="Remover">
-                                            <i class="fa fa-remove"></i>
-                                        </button>
-                                    </span>
+    <div class="container fade">
+        <nav role="navigation">
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#manipulator" aria-controls="manipulator" role="tab" data-toggle="tab">Manipulador</a>
+                </li>
+                <li role="presentation">
+                    <a href="#recognizer" aria-controls="recognizer" role="tab" data-toggle="tab">Reconhecedor</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="tab-content">
+            <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel">
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading clearfix">
+                            <h3 class="panel-title pull-left">Entrada da Gramática</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label>Símbolos não terminais</label>
+                                <select data-bind="tagsinput: true, selectedOptions: nonTerminalSymbols" multiple="multiple"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Símbolos terminais</label>
+                                <select data-bind="tagsinput: true, selectedOptions: terminalSymbols" multiple="multiple"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Símbolo do conjunto de produções</label>
+                                <input data-bind="value: productionSetSymbol" class="form-control" type="text" placeholder="Exemplo: P" />
+                            </div>
+                            <div class="form-group">
+                                <label>Símbolo de início das produções</label>
+                                <input data-bind="value: productionStartSymbol" class="form-control" type="text" placeholder="Exemplo: S" />
+                            </div>
+                            <div class="form-group">
+                                <label>Conjunto de produções</label>
+                                <div data-bind="foreach: productionRules">
+                                    <div class="production-rule clearfix">
+                                        <input data-bind="value: leftSide" class="form-control left" type="text" />
+                                        <div class="arrow text-center"><i class="fa fa-arrow-right"></i></div>
+                                        <div class="input-group right pull-right">
+                                            <select data-bind="tagsinput: true, selectedOptions: rightSide" multiple="multiple"></select>
+                                            <span class="input-group-btn">
+                                                <button data-bind="click: addEmptySentence" class="btn btn-info" type="button" title="Sentença vazia">
+                                                    <strong>&epsilon;</strong>
+                                                </button>
+                                                <button data-bind="click: $parent.removeRule.bind($parent)" class="btn btn-danger" type="button" title="Remover">
+                                                    <i class="fa fa-remove"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="text-center">
+                                    <button data-bind="click: addProductionRule" class="btn btn-success">
+                                        <i class="fa fa-plus"></i> ADICIONAR
+                                    </button>
                                 </div>
                             </div>
                         </div>
-                        <button data-bind="click: addProductionRule" class="btn btn-success btn-lg">
-                            <i class="fa fa-plus"></i> ADICIONAR
-                        </button>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="alert alert-success text-center" role="alert" data-bind="visible: !completed()">
+                        Complete a definição da gramática e os resultados serão exibidos aqui.
+                    </div>
+                    <div class="panel panel-danger" data-bind="visible: completed">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Validação da Gramática</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div data-bind="foreach: validationErrors">
+                                <div class="alert alert-danger text-center" role="alert" data-bind="text: $data"></div>
+                            </div>
+                            <div data-bind="visible: validationErrors().length === 0" class="alert alert-success text-center" role="alert">
+                                Nenhum erro encontrado na gramática!
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel panel-warning" data-bind="visible: completed">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Formalismo da Gramática</h3>
+                        </div>
+                        <div class="panel-body">
+                            <pre data-bind="text: formalism"></pre>
+                        </div>
+                    </div>
+                    <div class="panel panel-info" data-bind="visible: completed">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Classificação da Gramática</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="text-center" data-bind="visible: classification(), text: classification"></div>
+                        </div>
+                    </div>
+                    <div class="panel panel-success" data-bind="visible: completed">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Sentenças Geradas</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="placeholder text-muted text-center">Ainda não executado</div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-6" id="output">
-            <div class="panel panel-danger">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Validação da Gramática</h3>
-                </div>
-                <div class="panel-body">
-                    <div data-bind="foreach: validationErrors">
-                        <div class="alert alert-danger text-center" role="alert" data-bind="text: $data"></div>
-                    </div>
-                    <div data-bind="visible: validationErrors().length === 0" class="alert alert-success text-center" role="alert">
-                        Nenhum erro encontrado na gramática!
-                    </div>
-                </div>
-            </div>
-            <div class="panel panel-success">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Formalismo da Gramática</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="text-muted text-center" data-bind="visible: !formalism()">
-                        Complete a definição da gramática para ver o seu formalismo aqui.
-                    </div>
-                    <pre data-bind="visible: formalism(), text: formalism"></pre>
-                </div>
-            </div>
-            <div class="panel panel-info">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Classificação da Gramática</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="placeholder text-muted text-center">Ainda não executado</div>
-                </div>
-            </div>
-            <div class="panel panel-warning">
-                <div class="panel-heading">
-                    <h3 class="panel-title">Sentenças Geradas</h3>
-                </div>
-                <div class="panel-body">
-                    <div class="placeholder text-muted text-center">Ainda não executado</div>
-                </div>
+            <div id="recognizer" class="tab-pane fade" role="tabpanel">
             </div>
         </div>
     </div>
@@ -121,6 +139,6 @@
         Eduardo Weiland &middot; Trabalho de Linguagens Formais &middot; UNISC 2015
     </footer>
 
-    <script type="application/javascript" src="../bower_components/requirejs/require.js" data-main="js/main"></script>
+    <script type="application/javascript" src="libs/requirejs/require.js" data-main="js/main"></script>
 </body>
 </html>

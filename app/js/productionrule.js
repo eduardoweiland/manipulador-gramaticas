@@ -81,18 +81,39 @@ define(['knockout'], function(ko) {
             // TODO
         },
 
-        // TODO: doc
+        /**
+         * Verifica se a regra de produção obedece todas as restrições necessárias para pertencer a uma gramática do
+         * tipo regular. Para isso, a regra deve obedecer a duas restrições:
+         *
+         *     * O lado esquerdo deve ser um e apenas um símbolo não terminal.
+         *     * O lado direito pode ser apenas:
+         *         * Um símbolo terminal
+         *         * Um símbolo terminal seguido de um símbolo não terminal
+         *         * Sentença vazia
+         *
+         * @returns {Boolean} Se a regra obedece a todas as restrições do tipo regular.
+         */
         isRegular: function() {
+            var right = this.rightSide();
+            var nt    = this.grammar.nonTerminalSymbols();
+            var t     = this.grammar.terminalSymbols();
+
+            // Conjunto de todas as combinações de terminal + não terminal
+            var tnt = [];
+            for (var i = 0, lt = t.length; i < lt; ++i) {
+                for (var j = 0, lnt = nt.length; j < lnt; ++j) {
+                    tnt.push(t[i] + nt[j]);
+                }
+            }
+
             // Lado esquerdo deve ser um e apenas um não terminal
-            if (this.grammar.nonTerminalSymbols().indexOf(this.leftSide()) === -1) {
+            if (nt.indexOf(this.leftSide()) === -1) {
                 return false;
             }
 
             // Lado direito pode ser um terminal ou um terminal seguido de um não terminal
-            var right = this.rightSide();
             for (var i = 0, l = right.length; i < l; ++i) {
-                if (this.grammar.terminalSymbols().indexOf(right[i]) === -1) {
-                    // TODO: verificar se pode ser um terminal seguido de não terminal
+                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1) {
                     return false;
                 }
             }

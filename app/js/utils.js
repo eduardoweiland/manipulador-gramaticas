@@ -37,6 +37,34 @@ define(function() {
             return a.filter(function(i) {
                 return b.indexOf(i) > -1;
             });
+        },
+
+        /**
+         * Retorna um valor aleatório de um array.
+         *
+         * @param {mixed[]} array Qualquer array.
+         * @returns {mixed} Um dos valores do array.
+         */
+        randomItem: function(array) {
+            return array[Math.floor(Math.random() * array.length)];
+        },
+
+        /**
+         * Procura se `string` contém algum dos valores em `array` e retorna o índice do primeiro encontrado.
+         *
+         * @param {string} string String na qual procurar.
+         * @param {string[]} array Valores que devem ser procurados.
+         * @returns {[number, string]} Retorna um array onde o primeiro valor é o índice de um dos valores procurados e o
+         * segundo é o valor que foi encontrado nesse índice. Se nada for encontrado, retorna um array com -1 e null.
+         */
+        indexOfAny: function(string, array) {
+            for (var i = 0, l = array.length; i < l; ++i) {
+                if (string.indexOf(array[i]) !== -1) {
+                    return [string.indexOf(array[i]), array[i]];
+                }
+            }
+
+            return [-1, null];
         }
 
     };

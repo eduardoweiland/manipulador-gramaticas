@@ -17,6 +17,34 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     var INDENT = '    ';
 
     /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASSES = {
+        UNRESTRICTED:      0,
+        CONTEXT_SENSITIVE: 1,
+        CONTEXT_FREE:      2,
+        REGULAR:           3
+    };
+
+    /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASS_NAMES = [
+        'Irrestrita',
+        'Sensível ao Contexto',
+        'Livre de Contexto',
+        'Regular'
+    ];
+
+    /**
      * Representação de uma gramática regular ou livre de contexto.
      *
      * @class
@@ -53,6 +81,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             this.completed        = ko.pureComputed(this.isCompleted,       this);
             this.validationErrors = ko.pureComputed(this.validate,          this);
             this.formalism        = ko.pureComputed(this.toFormalismString, this);
+            this.classification   = ko.pureComputed(this.getGrammarClass,   this);
         },
 
         /**
@@ -125,6 +154,41 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             return '';
         },
 
+        // TODO: doc
+        getGrammarClass: function() {
+            var clazz = CLASSES.REGULAR,
+                rules = this.productionRules();
+
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                if (!rules[i].isRegular()) {
+                    --clazz;
+                    break;
+                }
+            }
+
+            // Se falhou na verificação de gramática regular, verifica se é livre de contexto
+            if (clazz === CLASSES.CONTEXT_FREE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextFree()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
+
+            // Se falhou na verificação de gramática livre de contexto, verifica se é sensível ao contexto
+            if (clazz === CLASSES.CONTEXT_SENSITIVE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextSensitive()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
+
+            return CLASS_NAMES[clazz];
+        },
+
         /**
          * Adiciona uma nova regra de produção à gramática.
          */
@@ -169,7 +233,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             return completed;
         }
 
-    };    
+    };
 
     return Grammar;
 });

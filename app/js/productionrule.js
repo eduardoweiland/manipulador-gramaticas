@@ -71,9 +71,41 @@ define(['knockout'], function(ko) {
             // TODO
         },
 
-        // TODO: doc
+        /**
+         * Verifica se a regra de produção obedece todas as restrições necessárias para pertencer a uma gramática do
+         * tipo sensível ao contexto. Para isso, a regra deve obedecer a duas restrições:
+         *
+         *     * O lado esquerdo deve conter pelo menos um símbolo não terminal.
+         *     * O lado direito não aceita a sentença vazia e seu comprimento deve ser maior ou igual ao lado esquerdo.
+         *
+         * @returns {Boolean} Se a regra obedece a todas as restrições do tipo sensível ao contexto.
+         */
         isContextSensitive: function() {
-            // TODO
+            var left  = this.leftSide();
+            var right = this.rightSide();
+            var nt    = this.grammar.nonTerminalSymbols();
+
+            // Lado esquerdo deve conter pelo menos um não terminal
+            var found = false;
+            for (var i = 0, l = nt.length; i < l; ++i) {
+                if (left.indexOf(nt[i]) !== -1) {
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                return false;
+            }
+
+            // Lado direito não pode conter a sentença vazia e o comprimento deve ser maior ou igual ao lado esquerdo
+            for (var i = 0, l = right.length; i < l; ++i) {
+                if (right[i] === EPSILON || right[i].length < left.length) {
+                    return false;
+                }
+            }
+
+            return true;
         },
 
         /**

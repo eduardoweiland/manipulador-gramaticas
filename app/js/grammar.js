@@ -1,4 +1,28 @@
-define(['knockout', 'productionrule'], function(ko, ProductionRule) {
+/*
+ * The MIT License
+ *
+ * Copyright 2015 Eduardo Weiland.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
+define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, utils) {
     'use strict';
 
     /**
@@ -17,25 +41,40 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
     var INDENT = '    ';
 
     /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASSES = {
+        UNRESTRICTED:      0,
+        CONTEXT_SENSITIVE: 1,
+        CONTEXT_FREE:      2,
+        REGULAR:           3
+    };
+
+    /**
+     * Classes de gramáticas existentes e seus respectivos tipos na hierarquia
+     * de Chomsky.
+     *
+     * @readonly
+     * @enum {number}
+     */
+    var CLASS_NAMES = [
+        'Irrestrita',
+        'Sensível ao Contexto',
+        'Livre de Contexto',
+        'Regular'
+    ];
+
+    /**
      * Representação de uma gramática regular ou livre de contexto.
      *
      * @class
      */
     function Grammar() {
         this.init.apply(this, arguments);
-    }
-
-    /**
-     * Retorna a intersecção entre os arrays `a` e `b`.
-     *
-     * @param {array} a
-     * @param {array} b
-     * @private
-     */
-    function arrayIntersection(a, b) {
-        return a.filter(function(i) {
-            return b.indexOf(i) > -1;
-        });
     }
 
     Grammar.prototype = {
@@ -53,6 +92,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             this.completed        = ko.pureComputed(this.isCompleted,       this);
             this.validationErrors = ko.pureComputed(this.validate,          this);
             this.formalism        = ko.pureComputed(this.toFormalismString, this);
+            this.classification   = ko.pureComputed(this.getGrammarClass,   this);
         },
 
         /**
@@ -68,7 +108,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
                 s   = this.productionStartSymbol();
 
             // 1. Símbolos terminais e não terminais precisam ser diferentes
-            var intersect = arrayIntersection(nt, t);
+            var intersect = utils.arrayIntersection(nt, t);
             if (intersect.length > 0) {
                 err.push('Existem símbolos não terminais repetidos entre os '
                         + 'símbolos terminais (' + intersect.join(', ') + ').');
@@ -126,6 +166,46 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
         },
 
         /**
+         * Verifica a qual classe a gramática que foi definida pertence através da análise do formato das regras de
+         * produção criadas.
+         *
+         * @return {string} O nome da classe à qual a gramática pertence.
+         */
+        getGrammarClass: function() {
+            var clazz = CLASSES.REGULAR,
+                rules = this.productionRules();
+
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                if (!rules[i].isRegular()) {
+                    --clazz;
+                    break;
+                }
+            }
+
+            // Se falhou na verificação de gramática regular, verifica se é livre de contexto
+            if (clazz === CLASSES.CONTEXT_FREE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextFree()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
+
+            // Se falhou na verificação de gramática livre de contexto, verifica se é sensível ao contexto
+            if (clazz === CLASSES.CONTEXT_SENSITIVE) {
+                for (var i = 0, l = rules.length; i < l; ++i) {
+                    if (!rules[i].isContextSensitive()) {
+                        --clazz;
+                        break;
+                    }
+                }
+            }
+
+            return CLASS_NAMES[clazz];
+        },
+
+        /**
          * Adiciona uma nova regra de produção à gramática.
          */
         addProductionRule: function() {
@@ -150,7 +230,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
         /**
          * Verifica se a definição da gramática está completa (todas as informações inseridas).
          *
-         * @return boolean Se a gramática está completamente definida.
+         * @return {boolean} Se a gramática está completamente definida.
          */
         isCompleted: function() {
             var completed = true,
@@ -169,7 +249,7 @@ define(['knockout', 'productionrule'], function(ko, ProductionRule) {
             return completed;
         }
 
-    };    
+    };
 
     return Grammar;
 });

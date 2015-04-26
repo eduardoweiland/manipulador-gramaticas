@@ -1,4 +1,5 @@
 /app/libs
+/node_modules
 /doc/*.aux
 /doc/*.fdb_latexmk
 /doc/*.fls

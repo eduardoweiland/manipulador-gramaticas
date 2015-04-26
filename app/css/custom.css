@@ -53,36 +53,6 @@ footer {
 }
 
 /*****************************************/
-/**           BOTÃO EXECUTAR            **/
-/*****************************************/
-
-#run {
-    position: relative;
-}
-
-#run .fa-space-shuttle {
-	transition: opacity .7s .2s ease-out;
-	position: absolute;
-	left: 12px;
-}
-
-#run .fa-spinner {
-    transition: opacity .7s ease-in-out;
-    opacity: 0;
-    position: relative;
-}
-
-#run.running .fa-space-shuttle {
-	transition: left 1s ease-in, opacity 0s 1s ease-out;
-    left: 200px;
-    opacity: 0
-}
-
-#run.running .fa-spinner {
-    opacity: 1;
-}
-
-/*****************************************/
 /**          ITENS DA PRODUÇÃO          **/
 /*****************************************/
 

@@ -208,8 +208,8 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
         /**
          * Adiciona uma nova regra de produção à gramática.
          */
-        addProductionRule: function() {
-            this.productionRules.push(new ProductionRule(this));
+        addProductionRule: function(data) {
+            this.productionRules.push(new ProductionRule(this, data));
         },
 
         /**

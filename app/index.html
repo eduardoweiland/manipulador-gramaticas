@@ -46,9 +46,10 @@ THE SOFTWARE.
             <button class="btn btn-info navbar-btn" data-bind="click: save">
                 <i class="fa fa-save"></i> Salvar
             </button>
-            <button class="btn btn-info navbar-btn" data-bind="click: open">
+            <div class="btn btn-info navbar-btn btn-file">
                 <i class="fa fa-folder-open-o"></i> Abrir
-            </button>
+                <input type="file" accept=".json" data-bind="event: { change: open }"/>
+            </div>
             <a href="https://github.com/eduardoweiland/manipulador-gramaticas" class="btn btn-info navbar-btn">
                 <i class="fa fa-code"></i> Código Fonte
             </a>

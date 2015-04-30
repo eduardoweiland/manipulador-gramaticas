@@ -47,6 +47,21 @@ body, h1, h2, h3, h4, h5, h6 {
     padding: 1.5em 0;
 }
 
+.btn-file {
+    position: relative;
+}
+
+.btn-file input[type="file"] {
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: inherit;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 footer {
     margin-bottom: 15px;
 }

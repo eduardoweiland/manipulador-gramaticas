@@ -53,11 +53,12 @@ define(['knockout'], function(ko) {
          *
          * @param {Grammar} grammar Gramática à qual a regra de produção pertence.
          */
-        init: function(grammar) {
+        init: function(grammar, data) {
+            data = data || {};
             this.grammar = grammar;
 
-            this.leftSide  = ko.observable('');
-            this.rightSide = ko.observableArray([]);
+            this.leftSide  = ko.observable(data.leftSide || '');
+            this.rightSide = ko.observableArray(data.rightSide || []);
         },
 
         /**

@@ -38,7 +38,37 @@ require(['knockout', 'jquery', 'grammar', 'file-saver-js', 'ko-tagsinput', 'boot
             saveAs(new Blob([json], {type: 'application/json'}), 'Gramática.json');
         },
 
-        open: function() {}
+        open: function(model, event) {
+            var files = event.target.files;
+            if (!files) {
+                alert('Navegador não suporta HTML 5');
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function() {
+                var json;
+                try {
+                    json = JSON.parse(reader.result);
+                }
+                catch (e) {
+                    alert('Arquivo inválido');
+                    return;
+                }
+
+                model.grammar.nonTerminalSymbols(json.nonTerminalSymbols);
+                model.grammar.terminalSymbols(json.terminalSymbols);
+                model.grammar.productionSetSymbol(json.productionSetSymbol);
+                model.grammar.productionStartSymbol(json.productionStartSymbol);
+
+                model.grammar.productionRules([]);
+                for (var i = 0, l = json.productionRules.length; i < l; ++i) {
+                    model.grammar.addProductionRule(json.productionRules[i]);
+                }
+            };
+
+            reader.readAsText(files[0]);
+        }
     };
 
     $(function() {

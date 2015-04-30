@@ -22,14 +22,27 @@
  * THE SOFTWARE.
  */
 
-require(['knockout', 'jquery', 'grammar', 'ko-tagsinput', 'bootstrap-tagsinput'], function(ko, $, Grammar) {
+require(['knockout', 'jquery', 'grammar', 'file-saver-js', 'ko-tagsinput', 'bootstrap-tagsinput'], function(ko, $, Grammar, saveAs) {
     'use strict';
 
     // Carrega os plugins JavaScript do Bootstrap (usado para as abas)
     require(['libs/bootstrap/dist/js/bootstrap.min.js']);
 
+    function App() {
+        this.grammar = new Grammar();
+    }
+
+    App.prototype = {
+        save: function() {
+            var json = ko.toJSON(this.grammar, null, 2);
+            saveAs(new Blob([json], {type: 'application/json'}), 'Gramática.json');
+        },
+
+        open: function() {}
+    };
+
     $(function() {
-        ko.applyBindings(new Grammar());
+        ko.applyBindings(new App());
 
         $('.overlay').removeClass('in');
         setTimeout(function() {

@@ -247,6 +247,16 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
             }
 
             return completed;
+        },
+
+        toJSON: function() {
+            return {
+                nonTerminalSymbols   : this.nonTerminalSymbols,
+                terminalSymbols      : this.terminalSymbols,
+                productionSetSymbol  : this.productionSetSymbol,
+                productionStartSymbol: this.productionStartSymbol,
+                productionRules      : this.productionRules
+            };
         }
 
     };

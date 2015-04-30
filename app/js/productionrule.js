@@ -191,6 +191,13 @@ define(['knockout'], function(ko) {
             }
 
             return true;
+        },
+
+        toJSON: function() {
+            return {
+                leftSide : this.leftSide,
+                rightSide: this.rightSide
+            };
         }
 
     };

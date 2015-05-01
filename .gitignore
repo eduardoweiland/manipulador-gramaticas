@@ -10,3 +10,4 @@
 /doc/*.synctex.gz
 /doc/*.tex~
 /nbproject
+/.nbinfo

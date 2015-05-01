@@ -156,7 +156,7 @@ THE SOFTWARE.
             </div>
             <div id="recognizer" class="tab-pane fade" role="tabpanel">
                 <div class="col-sm-6">
-                    <div class="panel panel-primary">
+                    <div class="panel panel-primary" data-bind="with: rules">
                         <div class="panel-heading clearfix">
                             <h3 class="panel-title pull-left">Tabela de Transição de Estados</h3>
                         </div>
@@ -203,7 +203,8 @@ THE SOFTWARE.
                         <div class="panel-heading clearfix">
                             <h3 class="panel-title pull-left">Reconhecimento de Sentenças</h3>
                         </div>
-                        <div class="panel-body">
+                        <div class="panel-body text-center">
+                            <input data-bind="textInput: sentence" class="form-control" placeholder="Digite a sentença para reconhecer com o autômato" />
                         </div>
                     </div>
                 </div>

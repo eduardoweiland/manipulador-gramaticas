@@ -22,32 +22,24 @@
  * THE SOFTWARE.
  */
 
-define(['knockout'], function(ko) {
+define(['knockout', 'transitiontable'], function(ko, TransitionTable) {
     'use strict';
 
-    function TransitionTable() {
+    function FiniteAutomaton() {
         this.init.apply(this, arguments);
     }
 
-    TransitionTable.prototype = {
+    FiniteAutomaton.prototype = {
 
         /**
          * @constructs
          */
         init: function() {
-            this.symbols = ko.observableArray([]);
-            this.states  = ko.observableArray([]);
-        },
-
-        addState: function() {
-            this.states.push('');
-        },
-
-        addSymbol: function() {
-            this.symbols.push('');
+            this.rules    = new TransitionTable();
+            this.sentence = ko.observable('');
         }
 
     };
 
-    return TransitionTable;
+    return FiniteAutomaton;
 });

@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-require(['knockout', 'jquery', 'grammar', 'transitiontable', 'ko-tagsinput', 'bootstrap-tagsinput'], function(ko, $, Grammar, TransitionTable) {
+require(['knockout', 'jquery', 'grammar', 'finiteautomaton', 'ko-tagsinput'], function(ko, $, Grammar, FiniteAutomaton) {
     'use strict';
 
     // Carrega os plugins JavaScript do Bootstrap (usado para as abas)
@@ -30,7 +30,7 @@ require(['knockout', 'jquery', 'grammar', 'transitiontable', 'ko-tagsinput', 'bo
 
     $(function() {
         ko.applyBindings(new Grammar(),         $('#manipulator').get(0));
-        ko.applyBindings(new TransitionTable(), $('#recognizer') .get(0));
+        ko.applyBindings(new FiniteAutomaton(), $('#recognizer') .get(0));
 
         $('.overlay').removeClass('in');
         setTimeout(function() {

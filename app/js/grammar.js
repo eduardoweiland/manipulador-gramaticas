@@ -208,8 +208,8 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
         /**
          * Adiciona uma nova regra de produção à gramática.
          */
-        addProductionRule: function() {
-            this.productionRules.push(new ProductionRule(this));
+        addProductionRule: function(data) {
+            this.productionRules.push(new ProductionRule(this, data));
         },
 
         /**
@@ -247,6 +247,16 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
             }
 
             return completed;
+        },
+
+        toJSON: function() {
+            return {
+                nonTerminalSymbols   : this.nonTerminalSymbols,
+                terminalSymbols      : this.terminalSymbols,
+                productionSetSymbol  : this.productionSetSymbol,
+                productionStartSymbol: this.productionStartSymbol,
+                productionRules      : this.productionRules
+            };
         }
 
     };

@@ -43,6 +43,13 @@ THE SOFTWARE.
     <header class="container-fluid navbar navbar-inverse navbar-static-top">
         <div class="navbar-brand">Manipulador de Gramáticas</div>
         <div class="pull-right">
+            <button class="btn btn-info navbar-btn" data-bind="click: save">
+                <i class="fa fa-save"></i> Salvar
+            </button>
+            <div class="btn btn-info navbar-btn btn-file">
+                <i class="fa fa-folder-open-o"></i> Abrir
+                <input type="file" accept=".json" data-bind="event: { change: open }"/>
+            </div>
             <a href="https://github.com/eduardoweiland/manipulador-gramaticas" class="btn btn-info navbar-btn">
                 <i class="fa fa-code"></i> Código Fonte
             </a>
@@ -60,7 +67,7 @@ THE SOFTWARE.
             </ul>
         </nav>
         <div class="tab-content">
-            <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel">
+            <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel" data-bind="with: grammar">
                 <div class="col-sm-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
@@ -154,7 +161,7 @@ THE SOFTWARE.
                     </div>
                 </div>
             </div>
-            <div id="recognizer" class="tab-pane fade" role="tabpanel">
+            <div id="recognizer" class="tab-pane fade" role="tabpanel" data-bind="with: automaton">
                 <div class="col-sm-6">
                     <div class="panel panel-primary" data-bind="with: rules">
                         <div class="panel-heading clearfix">

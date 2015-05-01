@@ -22,15 +22,58 @@
  * THE SOFTWARE.
  */
 
-require(['knockout', 'jquery', 'grammar', 'finiteautomaton', 'ko-tagsinput'], function(ko, $, Grammar, FiniteAutomaton) {
+require(['knockout', 'jquery', 'grammar', 'finiteautomaton', 'file-saver-js', 'ko-tagsinput'], function(ko, $, Grammar, FiniteAutomaton, saveAs) {
     'use strict';
 
     // Carrega os plugins JavaScript do Bootstrap (usado para as abas)
     require(['libs/bootstrap/dist/js/bootstrap.min.js']);
 
+    function App() {
+        this.grammar   = new Grammar();
+        this.automaton = new FiniteAutomaton();
+    }
+
+    App.prototype = {
+        save: function() {
+            var json = ko.toJSON(this.grammar, null, 2);
+            saveAs(new Blob([json], {type: 'application/json'}), 'Gramática.json');
+        },
+
+        open: function(model, event) {
+            var files = event.target.files;
+            if (!files) {
+                alert('Navegador não suporta HTML 5');
+                return;
+            }
+
+            var reader = new FileReader();
+            reader.onload = function() {
+                var json;
+                try {
+                    json = JSON.parse(reader.result);
+                }
+                catch (e) {
+                    alert('Arquivo inválido');
+                    return;
+                }
+
+                model.grammar.nonTerminalSymbols(json.nonTerminalSymbols);
+                model.grammar.terminalSymbols(json.terminalSymbols);
+                model.grammar.productionSetSymbol(json.productionSetSymbol);
+                model.grammar.productionStartSymbol(json.productionStartSymbol);
+
+                model.grammar.productionRules([]);
+                for (var i = 0, l = json.productionRules.length; i < l; ++i) {
+                    model.grammar.addProductionRule(json.productionRules[i]);
+                }
+            };
+
+            reader.readAsText(files[0]);
+        }
+    };
+
     $(function() {
-        ko.applyBindings(new Grammar(),         $('#manipulator').get(0));
-        ko.applyBindings(new FiniteAutomaton(), $('#recognizer') .get(0));
+        ko.applyBindings(new App());
 
         $('.overlay').removeClass('in');
         setTimeout(function() {

@@ -22,7 +22,8 @@
     "metro-bootstrap": "*",
     "bootstrap-tagsinput": "~0.4.2",
     "webfont-notosans": "~0.1.0",
-    "require-css": "~0.1.8"
+    "require-css": "~0.1.8",
+    "file-saver-saveas-js": "~1.20150304.1"
   },
   "resolutions": {
     "bootstrap": "~3.3.4"

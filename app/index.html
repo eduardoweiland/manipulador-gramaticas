@@ -155,36 +155,58 @@ THE SOFTWARE.
                 </div>
             </div>
             <div id="recognizer" class="tab-pane fade" role="tabpanel">
-                <div class="text-center" style="margin-bottom: 10px;">
-                    <button class="btn btn-sm btn-success" data-bind="click: addSymbol">
-                        <i class="fa fa-plus"></i> ADICIONAR SÍMBOLO
-                    </button>
-                    <button class="btn btn-sm btn-success" data-bind="click: addState">
-                        <i class="fa fa-plus"></i> ADICIONAR ESTADO
-                    </button>
+                <div class="col-sm-6">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading clearfix">
+                            <h3 class="panel-title pull-left">Tabela de Transição de Estados</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="text-center" style="margin-bottom: 10px;">
+                                <button class="btn btn-sm btn-success" data-bind="click: addSymbol">
+                                    <i class="fa fa-plus"></i> ADICIONAR SÍMBOLO
+                                </button>
+                                <button class="btn btn-sm btn-success" data-bind="click: addState">
+                                    <i class="fa fa-plus"></i> ADICIONAR ESTADO
+                                </button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="2" rowspan="2">&nbsp;</th>
+                                            <th data-bind="attr: { colspan: symbols.length }">Símbolos</th>
+                                        </tr>
+                                        <tr>
+                                            <!-- ko foreach: symbols -->
+                                            <th contenteditable data-bind="text: String.fromCharCode($index() + 97)"></th>
+                                            <!-- /ko -->
+                                        </tr>
+                                        <!-- ko foreach: states -->
+                                        <tr>
+                                            <!-- ko if: $index() === 0 -->
+                                            <th data-bind="attr: { rowspan: $parent.states.length }">Estados</th>
+                                            <!-- /ko -->
+                                            <th contenteditable data-bind="text: 'Q' + $index()"></th>
+                                            <!-- ko foreach: $parent.symbols -->
+                                            <td contenteditable></td>
+                                            <!-- /ko -->
+                                        </tr>
+                                        <!-- /ko -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="">
+                <div class="col-sm-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading clearfix">
+                            <h3 class="panel-title pull-left">Reconhecimento de Sentenças</h3>
+                        </div>
+                        <div class="panel-body">
+                        </div>
+                    </div>
                 </div>
-                <table class="table table-bordered">
-                    <tbody>
-                        <tr>
-                            <th>
-                                <div class="text-right">Estados \ Símbolos</div>
-                            </th>
-                            <!-- ko foreach: symbols -->
-                            <th contenteditable data-bind="text: $data"></th>
-                            <!-- /ko -->
-                        </tr>
-                        <!-- ko foreach: states -->
-                        <tr>
-                            <th contenteditable data-bind="text: $data"></th>
-                            <!-- ko foreach: $parent.symbols -->
-                            <td contenteditable data-bind="text: $index"></td>
-                            <!-- /ko -->
-                        </tr>
-                        <!-- /ko -->
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

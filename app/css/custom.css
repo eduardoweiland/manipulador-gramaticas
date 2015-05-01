@@ -45,6 +45,9 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .tab-content {
     padding: 1.5em 0;
+}
+
+.panel-body {
     overflow-x: auto;
 }
 
@@ -64,11 +67,8 @@ footer {
 #recognizer table th,
 #recognizer table td {
     text-align: center;
+    vertical-align: middle;
 }
-#recognizer table th:first-child {
-    text-align: right;
-}
-
 
 /*****************************************/
 /**       CUSTOMIZAÇÃO TAGS INPUT       **/

@@ -43,6 +43,13 @@ THE SOFTWARE.
     <header class="container-fluid navbar navbar-inverse navbar-static-top">
         <div class="navbar-brand">Manipulador de Gramáticas</div>
         <div class="pull-right">
+            <button class="btn btn-info navbar-btn" data-bind="click: save">
+                <i class="fa fa-save"></i> Salvar
+            </button>
+            <div class="btn btn-info navbar-btn btn-file">
+                <i class="fa fa-folder-open-o"></i> Abrir
+                <input type="file" accept=".json" data-bind="event: { change: open }"/>
+            </div>
             <a href="https://github.com/eduardoweiland/manipulador-gramaticas" class="btn btn-info navbar-btn">
                 <i class="fa fa-code"></i> Código Fonte
             </a>
@@ -60,11 +67,13 @@ THE SOFTWARE.
             </ul>
         </nav>
         <div class="tab-content">
-            <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel">
+            <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel" data-bind="with: grammar">
                 <div class="col-sm-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
-                            <h3 class="panel-title pull-left">Entrada da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-terminal"></i>&nbsp;&nbsp;&nbsp;Entrada da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
@@ -117,7 +126,9 @@ THE SOFTWARE.
                     </div>
                     <div class="panel panel-danger" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Validação da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;Validação da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div data-bind="foreach: validationErrors">
@@ -130,7 +141,9 @@ THE SOFTWARE.
                     </div>
                     <div class="panel panel-warning" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Formalismo da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Formalismo da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <pre data-bind="text: formalism"></pre>
@@ -138,7 +151,9 @@ THE SOFTWARE.
                     </div>
                     <div class="panel panel-info" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Classificação da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-bookmark"></i>&nbsp;&nbsp;&nbsp;Classificação da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div class="text-center" data-bind="visible: classification(), text: classification"></div>
@@ -146,7 +161,9 @@ THE SOFTWARE.
                     </div>
                     <div class="panel panel-success" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Sentenças Geradas</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-gears"></i>&nbsp;&nbsp;&nbsp;Sentenças Geradas
+                            </h3>
                         </div>
                         <div class="panel-body" data-bind="foreach: generatedSentences ">
                             <div class="text-center" data-bind="text: $data"></div>

@@ -53,11 +53,12 @@ define(['knockout'], function(ko) {
          *
          * @param {Grammar} grammar Gramática à qual a regra de produção pertence.
          */
-        init: function(grammar) {
+        init: function(grammar, data) {
+            data = data || {};
             this.grammar = grammar;
 
-            this.leftSide  = ko.observable('');
-            this.rightSide = ko.observableArray([]);
+            this.leftSide  = ko.observable(data.leftSide || '');
+            this.rightSide = ko.observableArray(data.rightSide || []);
         },
 
         /**
@@ -185,12 +186,19 @@ define(['knockout'], function(ko) {
 
             // Lado direito pode ser um terminal ou um terminal seguido de um não terminal
             for (var i = 0, l = right.length; i < l; ++i) {
-                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1) {
+                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1 && right[i] !== EPSILON) {
                     return false;
                 }
             }
 
             return true;
+        },
+
+        toJSON: function() {
+            return {
+                leftSide : this.leftSide,
+                rightSide: this.rightSide
+            };
         }
 
     };

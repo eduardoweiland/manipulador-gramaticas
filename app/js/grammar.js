@@ -181,7 +181,12 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
             return '';
         },
 
-        // TODO: doc
+        /**
+         * Verifica a qual classe a gramática que foi definida pertence através da análise do formato das regras de
+         * produção criadas.
+         *
+         * @return {string} O nome da classe à qual a gramática pertence.
+         */
         getGrammarClass: function() {
             var clazz = CLASSES.REGULAR,
                 rules = this.productionRules();
@@ -219,8 +224,8 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
         /**
          * Adiciona uma nova regra de produção à gramática.
          */
-        addProductionRule: function() {
-            this.productionRules.push(new ProductionRule(this));
+        addProductionRule: function(data) {
+            this.productionRules.push(new ProductionRule(this, data));
         },
 
         /**
@@ -241,7 +246,7 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
         /**
          * Verifica se a definição da gramática está completa (todas as informações inseridas).
          *
-         * @return boolean Se a gramática está completamente definida.
+         * @return {boolean} Se a gramática está completamente definida.
          */
         isCompleted: function() {
             var completed = true,
@@ -300,6 +305,16 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
                 }
             }
             return [];
+        },
+
+        toJSON: function() {
+            return {
+                nonTerminalSymbols   : this.nonTerminalSymbols,
+                terminalSymbols      : this.terminalSymbols,
+                productionSetSymbol  : this.productionSetSymbol,
+                productionStartSymbol: this.productionStartSymbol,
+                productionRules      : this.productionRules
+            };
         }
 
     };

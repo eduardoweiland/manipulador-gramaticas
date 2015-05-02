@@ -22,6 +22,8 @@
  * THE SOFTWARE.
  */
 
+/* global require, define */
+
 require.config({
     bower: {
         baseUrl: '../libs',
@@ -39,7 +41,7 @@ require.config({
     }
 });
 
-define(['bower!bower.json'], function(bowerConfig) {
+define(['bower!bower.json'], function() {
     require(['app']);
 });
 

@@ -1,4 +1,4 @@
-/app/libs
+/app/libs/font-awesome
 /node_modules
 /doc/*.aux
 /doc/*.bak

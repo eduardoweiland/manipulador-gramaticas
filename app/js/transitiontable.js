@@ -45,6 +45,14 @@ define(['knockout'], function(ko) {
 
         addSymbol: function() {
             this.symbols.push('');
+        },
+
+        removeState: function(index) {
+            this.states.splice(index, 1);
+        },
+
+        removeSymbol: function(index) {
+            this.symbols.splice(index, 1);
         }
 
     };

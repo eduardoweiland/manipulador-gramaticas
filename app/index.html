@@ -165,7 +165,9 @@ THE SOFTWARE.
                 <div class="col-sm-6">
                     <div class="panel panel-primary" data-bind="with: rules">
                         <div class="panel-heading clearfix">
-                            <h3 class="panel-title pull-left">Tabela de Transição de Estados</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-table"></i>&nbsp;&nbsp;&nbsp;Tabela de Transição de Estados
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div class="text-center" style="margin-bottom: 10px;">
@@ -177,11 +179,14 @@ THE SOFTWARE.
                                 </button>
                             </div>
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table class="table table-bordered" data-bind="visible: symbols().length || states().length">
                                     <tbody>
                                         <tr>
                                             <th colspan="2" rowspan="2">&nbsp;</th>
-                                            <th data-bind="attr: { colspan: symbols.length }">Símbolos</th>
+                                            <!-- ko if: symbols().length > 0 -->
+                                            <th data-bind="attr: { colspan: symbols().length}">Símbolos</th>
+                                            <!-- /ko -->
+                                            <th rowspan="2"></th>
                                         </tr>
                                         <tr>
                                             <!-- ko foreach: symbols -->
@@ -191,14 +196,30 @@ THE SOFTWARE.
                                         <!-- ko foreach: states -->
                                         <tr>
                                             <!-- ko if: $index() === 0 -->
-                                            <th data-bind="attr: { rowspan: $parent.states.length }">Estados</th>
+                                            <th data-bind="attr: { rowspan: $parent.states().length}">Estados</th>
                                             <!-- /ko -->
                                             <th contenteditable data-bind="text: 'Q' + $index()"></th>
                                             <!-- ko foreach: $parent.symbols -->
                                             <td contenteditable></td>
                                             <!-- /ko -->
+                                            <td>
+                                                <a href="#" data-bind="click: $parent.removeState.bind($parent, $index()) ">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </td>
                                         </tr>
                                         <!-- /ko -->
+                                        <tr>
+                                            <th colspan="2"></th>
+                                            <!-- ko foreach: symbols -->
+                                            <td>
+                                                <a href="#" data-bind="click: $parent.removeSymbol.bind($parent, $index()) ">
+                                                    <i class="fa fa-times"></i>
+                                                </a>
+                                            </td>
+                                            <!-- /ko -->
+                                            <td></td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -208,10 +229,13 @@ THE SOFTWARE.
                 <div class="col-sm-6">
                     <div class="panel panel-success">
                         <div class="panel-heading clearfix">
-                            <h3 class="panel-title pull-left">Reconhecimento de Sentenças</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-thumbs-up"></i>&nbsp;&nbsp;&nbsp;Reconhecimento de Sentenças
+                            </h3>
                         </div>
                         <div class="panel-body text-center">
                             <input data-bind="textInput: sentence" class="form-control" placeholder="Digite a sentença para reconhecer com o autômato" />
+                            <div data-bind="text: recognition"></div>
                         </div>
                     </div>
                 </div>

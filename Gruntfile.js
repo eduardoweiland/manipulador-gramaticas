@@ -22,26 +22,28 @@
  * THE SOFTWARE.
  */
 
-/* global require, define */
+/* global module */
 
-require.config({
-    bower: {
-        baseUrl: '../libs',
-        root: '../../bower.json',
-        extensions: 'js|css',
-        ignore: 'requirejs|font-awesome',
-        auto: true,
-        deps: ['dependencies']
-    },
-    paths: {
-        'text': '../libs/requirejs-text/text',
-        'css': '../libs/require-css/css',
-        'json': '../libs/requirejs-plugins/src/json',
-        'bower': '../libs/requirejs-plugin-bower/src/bower'
-    }
-});
+module.exports = function (grunt) {
 
-define(['bower!bower.json'], function() {
-    require(['app']);
-});
+    // Inicializa as configurações do projeto e dos plugins
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
+        latex: {
+            options: {
+                shellEscape: true,
+                outputDirectory: 'doc'
+            },
+            report: {
+                src: 'doc/report.tex'
+            }
+        }
+    });
 
+    // Carrega os plugins
+    grunt.loadNpmTasks('grunt-latex');
+
+    // Define as tarefas
+    grunt.registerTask('default', ['latex']);
+
+};

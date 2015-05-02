@@ -1,3 +1,27 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2015 Eduardo Weiland.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 define(['knockout'], function(ko) {
     'use strict';
 
@@ -29,11 +53,12 @@ define(['knockout'], function(ko) {
          *
          * @param {Grammar} grammar Gramática à qual a regra de produção pertence.
          */
-        init: function(grammar) {
+        init: function(grammar, data) {
+            data = data || {};
             this.grammar = grammar;
 
-            this.leftSide  = ko.observable('');
-            this.rightSide = ko.observableArray([]);
+            this.leftSide  = ko.observable(data.leftSide || '');
+            this.rightSide = ko.observableArray(data.rightSide || []);
         },
 
         /**
@@ -161,12 +186,19 @@ define(['knockout'], function(ko) {
 
             // Lado direito pode ser um terminal ou um terminal seguido de um não terminal
             for (var i = 0, l = right.length; i < l; ++i) {
-                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1) {
+                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1 && right[i] !== EPSILON) {
                     return false;
                 }
             }
 
             return true;
+        },
+
+        toJSON: function() {
+            return {
+                leftSide : this.leftSide,
+                rightSide: this.rightSide
+            };
         }
 
     };

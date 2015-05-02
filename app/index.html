@@ -1,4 +1,27 @@
 <!DOCTYPE html>
+<!--
+The MIT License
+
+Copyright 2015 Eduardo Weiland.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+-->
 <html lang="pt-BR">
 <head>
     <meta charset="utf-8" />
@@ -20,6 +43,13 @@
     <header class="container-fluid navbar navbar-inverse navbar-static-top">
         <div class="navbar-brand">Manipulador de Gramáticas</div>
         <div class="pull-right">
+            <button class="btn btn-info navbar-btn" data-bind="click: save">
+                <i class="fa fa-save"></i> Salvar
+            </button>
+            <div class="btn btn-info navbar-btn btn-file">
+                <i class="fa fa-folder-open-o"></i> Abrir
+                <input type="file" accept=".json" data-bind="event: { change: open }"/>
+            </div>
             <a href="https://github.com/eduardoweiland/manipulador-gramaticas" class="btn btn-info navbar-btn">
                 <i class="fa fa-code"></i> Código Fonte
             </a>
@@ -37,11 +67,13 @@
             </ul>
         </nav>
         <div class="tab-content">
-            <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel">
+            <div id="manipulator" class="clearfix tab-pane fade in active" role="tabpanel" data-bind="with: grammar">
                 <div class="col-sm-6">
                     <div class="panel panel-primary">
                         <div class="panel-heading clearfix">
-                            <h3 class="panel-title pull-left">Entrada da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-terminal"></i>&nbsp;&nbsp;&nbsp;Entrada da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div class="form-group">
@@ -94,7 +126,9 @@
                     </div>
                     <div class="panel panel-danger" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Validação da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-check"></i>&nbsp;&nbsp;&nbsp;Validação da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div data-bind="foreach: validationErrors">
@@ -107,7 +141,9 @@
                     </div>
                     <div class="panel panel-warning" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Formalismo da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-list"></i>&nbsp;&nbsp;&nbsp;Formalismo da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <pre data-bind="text: formalism"></pre>
@@ -115,7 +151,9 @@
                     </div>
                     <div class="panel panel-info" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Classificação da Gramática</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-bookmark"></i>&nbsp;&nbsp;&nbsp;Classificação da Gramática
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div class="text-center" data-bind="visible: classification(), text: classification"></div>
@@ -123,7 +161,9 @@
                     </div>
                     <div class="panel panel-success" data-bind="visible: completed">
                         <div class="panel-heading">
-                            <h3 class="panel-title">Sentenças Geradas</h3>
+                            <h3 class="panel-title">
+                                <i class="fa fa-gears"></i>&nbsp;&nbsp;&nbsp;Sentenças Geradas
+                            </h3>
                         </div>
                         <div class="panel-body">
                             <div class="placeholder text-muted text-center">Ainda não executado</div>

@@ -22,26 +22,23 @@
  * THE SOFTWARE.
  */
 
-/* global require, define */
+define(function() {
+    'use strict';
 
-require.config({
-    bower: {
-        baseUrl: '../libs',
-        root: '../../bower.json',
-        extensions: 'js|css',
-        ignore: 'requirejs|font-awesome',
-        auto: true,
-        deps: ['dependencies']
-    },
-    paths: {
-        'text': '../libs/requirejs-text/text',
-        'css': '../libs/require-css/css',
-        'json': '../libs/requirejs-plugins/src/json',
-        'bower': '../libs/requirejs-plugin-bower/src/bower'
-    }
+    return {
+
+        /**
+         * Retorna a intersecção entre os arrays `a` e `b`.
+         *
+         * @param {array} a
+         * @param {array} b
+         */
+        arrayIntersection: function(a, b) {
+            return a.filter(function(i) {
+                return b.indexOf(i) > -1;
+            });
+        }
+
+    };
+
 });
-
-define(['bower!bower.json'], function() {
-    require(['app']);
-});
-

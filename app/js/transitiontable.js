@@ -37,22 +37,55 @@ define(['knockout'], function(ko) {
         init: function() {
             this.symbols = ko.observableArray([]);
             this.states  = ko.observableArray([]);
+
+            this.startState = ko.observable();
+            this.endStates  = ko.observableArray([]);
+
+            this.nextStates = [];
         },
 
-        addState: function() {
-            this.states.push('');
+        /**
+         * Adiciona uma nova linha na tabela para representar um novo estado.
+         *
+         * @param {string} [state=''] Nome do novo estado.
+         */
+        addState: function(state) {
+            this.states.push(state || '');
+            this.nextStates.push(new Array(this.symbols.length).fill(''));
         },
 
-        addSymbol: function() {
-            this.symbols.push('');
+        /**
+         * Adiciona uma nova coluna na tabela para representar um símbolo que pode ser reconhecido.
+         *
+         * @param {string} [symbol=''] Símbolo para ser adicionado.
+         */
+        addSymbol: function(symbol) {
+            this.symbols.push(symbol || '');
+            for (var i = 0, l = this.nextStates.length; i < l; ++i) {
+                this.nextStates[i].push('');
+            }
         },
 
+        /**
+         * Remove uma linha (estado) da tabela de transição.
+         *
+         * @param {number} index Índice da linha para ser removida, começando em 0.
+         */
         removeState: function(index) {
             this.states.splice(index, 1);
+            this.nextStates.splice(index, 1);
         },
 
+        /**
+         * Remove uma coluna (símbolo) da tabela de transição.
+         *
+         * @param {number} index Índice da coluna para ser removida, começando em 0.
+         */
         removeSymbol: function(index) {
             this.symbols.splice(index, 1);
+            for (var i = 0, l = this.nextStates.length; i < l; ++i) {
+                this.nextStates[i].splice(index, 1);
+            }
         }
 
     };

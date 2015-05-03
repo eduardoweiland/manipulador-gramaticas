@@ -37,6 +37,18 @@ define(['knockout', 'transitiontable'], function(ko, TransitionTable) {
         init: function() {
             this.rules    = new TransitionTable();
             this.sentence = ko.observable('');
+
+            this.currentState = '';
+            this.recognized   = ko.observable(false);
+            this.recognition  = ko.pureComputed(this.recognize, this);
+        },
+
+        recognize: function() {
+            var s = this.sentence();
+            var steps = [];
+            steps.push({currentState: 'Q0', readSymbol: 'a', nextState: 'Q1'});
+
+            return steps;
         }
 
     };

@@ -70,6 +70,9 @@ body, h1, h2, h3, h4, h5, h6 {
     background-color: #efefef;
 }
 
+.table-spacing {
+    margin: 10px auto;
+}
 
 footer {
     margin-bottom: 15px;
@@ -77,7 +80,6 @@ footer {
 
 #recognizer table {
     width: auto;
-    margin: 0 auto;
 }
 
 #recognizer table th,

@@ -56,7 +56,9 @@ define(['knockout'], function(ko) {
          * Adiciona uma nova coluna na tabela para representar um símbolo que pode ser reconhecido.
          */
         addSymbol: function() {
-            this.symbols.push('');
+            var len = this.symbols().length;
+            var symbol = String.fromCharCode((len % 26) + 97);
+            this.symbols.push(symbol + String(Math.floor(len / 26) || ''));
             for (var i = 0, l = this.nextStates.length; i < l; ++i) {
                 this.nextStates[i].push('');
             }

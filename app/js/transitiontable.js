@@ -46,21 +46,17 @@ define(['knockout'], function(ko) {
 
         /**
          * Adiciona uma nova linha na tabela para representar um novo estado.
-         *
-         * @param {string} [state=''] Nome do novo estado.
          */
-        addState: function(state) {
-            this.states.push(state || '');
-            this.nextStates.push(new Array(this.symbols.length).fill(''));
+        addState: function() {
+            this.states.push('Q' + this.states().length);
+            this.nextStates.push(new Array(this.symbols().length).fill(''));
         },
 
         /**
          * Adiciona uma nova coluna na tabela para representar um símbolo que pode ser reconhecido.
-         *
-         * @param {string} [symbol=''] Símbolo para ser adicionado.
          */
-        addSymbol: function(symbol) {
-            this.symbols.push(symbol || '');
+        addSymbol: function() {
+            this.symbols.push('');
             for (var i = 0, l = this.nextStates.length; i < l; ++i) {
                 this.nextStates[i].push('');
             }

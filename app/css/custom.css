@@ -35,8 +35,8 @@ body, h1, h2, h3, h4, h5, h6 {
 }
 
 .panel-title {
-	font-weight: normal;
-	color: #FFFFFF;
+    font-weight: normal;
+    color: #FFFFFF;
 }
 
 .input-group-btn {
@@ -64,6 +64,10 @@ body, h1, h2, h3, h4, h5, h6 {
 
 .panel-body {
     overflow-x: auto;
+}
+
+.pointer {
+    cursor: pointer;
 }
 
 .table th {

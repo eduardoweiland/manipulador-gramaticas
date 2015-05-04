@@ -38,8 +38,8 @@ define(['knockout'], function(ko) {
             this.symbols = ko.observableArray([]);
             this.states  = ko.observableArray([]);
 
-            this.startState = ko.observable();
-            this.endStates  = ko.observableArray([]);
+            this.startState = ko.observable(0);
+            this.endStates  = ko.observableArray([0]);
 
             this.nextStates = [];
         },
@@ -83,6 +83,20 @@ define(['knockout'], function(ko) {
             this.symbols.splice(index, 1);
             for (var i = 0, l = this.nextStates.length; i < l; ++i) {
                 this.nextStates[i].splice(index, 1);
+            }
+        },
+
+        setStartState: function(index) {
+            this.startState(index);
+        },
+
+        toggleEndState: function(index) {
+            var pos = this.endStates.indexOf(index);
+            if (pos !== -1) {
+                this.endStates.splice(pos, 1);
+            }
+            else {
+                this.endStates.push(index);
             }
         }
 

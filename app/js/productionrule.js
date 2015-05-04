@@ -186,7 +186,7 @@ define(['knockout'], function(ko) {
 
             // Lado direito pode ser um terminal ou um terminal seguido de um não terminal
             for (var i = 0, l = right.length; i < l; ++i) {
-                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1) {
+                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1 && right[i] !== EPSILON) {
                     return false;
                 }
             }

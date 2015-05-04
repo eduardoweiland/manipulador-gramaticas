@@ -85,9 +85,40 @@ A ferramenta foi desenvolvida como uma aplicação \textit{web} executada totalm
 Para isso, foi utilizada a linguagem de programação JavaScript em conjunto com algumas bibliotecas e outras ferramentas
 de uso livre para facilitar a organização e a programação do trabalho.
 
+\subsection{Estrutura}
+
+Para gerenciar as bibliotecas de terceiros, foram utilizadas as ferramentas \textit{npm} \cite{npm} e \textit{bower}
+\cite{bower}. O primeiro deles é utilizado principalmente para algumas ferramentas utilizadas apenas durante o
+desenvolvimento, incluindo o próprio \texttt{bower}. Este, por sua vez, é responsável por gerenciar as dependências
+das bibliotecas que são realmente utilizadas no trabalho.
+
+O uso dessas ferramentas permite apenas descrever quais versões de quais bibliotecas são necessárias, e a partir dessa
+configuração tudo pode ser instalado em apenas um comando: \texttt{npm install}. Após a execução desse comando, é
+necessário apenas publicar os arquivos do projeto em algum servidor HTTP e, em seguida, acessar o projeto utilizando
+algum navegador \textit{web} moderno.
+
+A versão estável mais recente do trabalho está disponível para acesso livre em um servidor \textit{online}, sem a
+necessidade de realizar a instalação de outras ferramentas e dependências. O \textit{link} para acessá-la é
+\href{https://eduardoweiland.github.io/manipulador-gramaticas}{https://eduardoweiland.github.io/manipulador-gramaticas}.
+
+\subsection{Organização do Projeto}
+
+O código fonte desenvolvido nesse trabalho está localizado dentre do diretório \texttt{app} na raiz do projeto. Dentro
+deste diretório, o arquivo \texttt{index.html} e o diretório \texttt{css} são responsáveis apenas pela apresentação dos
+resultados na tela. A lógica da execução está toda implementada nos arquivos localizado dentro da pasta \texttt{js}.
+
+A ligação entre a exibição dos dados na interface e a lógica da ferramente é feita pela ferramenta Knockout
+\cite{knockout}. Essa ferramenta é parte importante do \texttt{software} desenvolvido, visto que é a ferramenta que
+centraliza a entrada de dados por parte do usuário e a exibição dos resultados, tudo gerenciado de forma automática.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Conclusão}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\bibliographystyle{abbrv}
+\bibliography{report}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

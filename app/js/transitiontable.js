@@ -38,8 +38,8 @@ define(['knockout'], function(ko) {
             this.symbols = ko.observableArray([]);
             this.states  = ko.observableArray([]);
 
-            this.startState = ko.observable(0);
-            this.endStates  = ko.observableArray([0]);
+            this.startState = ko.observable();
+            this.endStates  = ko.observableArray([]);
 
             this.nextStates = [];
         },
@@ -48,8 +48,18 @@ define(['knockout'], function(ko) {
          * Adiciona uma nova linha na tabela para representar um novo estado.
          */
         addState: function() {
-            this.states.push('Q' + this.states().length);
+            var state = 'Q' + this.states().length;
+
+            this.states.push(state);
             this.nextStates.push(new Array(this.symbols().length).fill(''));
+
+            if (!this.startState()) {
+                this.setStartState(state);
+            }
+
+            if (this.endStates().length === 0) {
+                this.toggleEndState(state);
+            }
         },
 
         /**
@@ -70,8 +80,16 @@ define(['knockout'], function(ko) {
          * @param {number} index Índice da linha para ser removida, começando em 0.
          */
         removeState: function(index) {
-            this.states.splice(index, 1);
+            var state = this.states.splice(index, 1)[0];
             this.nextStates.splice(index, 1);
+
+            if (this.startState() === state) {
+                this.startState(this.states()[0] || false);
+            }
+
+            if (this.endStates.indexOf(state) !== -1) {
+                this.toggleEndState(state);
+            }
         },
 
         /**
@@ -86,17 +104,17 @@ define(['knockout'], function(ko) {
             }
         },
 
-        setStartState: function(index) {
-            this.startState(index);
+        setStartState: function(state) {
+            this.startState(state);
         },
 
-        toggleEndState: function(index) {
-            var pos = this.endStates.indexOf(index);
+        toggleEndState: function(state) {
+            var pos = this.endStates.indexOf(state);
             if (pos !== -1) {
                 this.endStates.splice(pos, 1);
             }
             else {
-                this.endStates.push(index);
+                this.endStates.push(state);
             }
         }
 

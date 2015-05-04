@@ -208,11 +208,11 @@ THE SOFTWARE.
                                         <th data-bind="attr: { rowspan: $parent.states().length}">Estados</th>
                                         <!-- /ko -->
                                         <th title="Estado Final"   class="pointer" data-bind="
-                                                text: ($parent.endStates.indexOf($index()) >= 0) ? '*' : '',
-                                                click: $parent.toggleEndState.bind($parent, $index())"></th>
+                                                text: ($parent.endStates.indexOf($data) >= 0) ? '*' : '',
+                                                click: $parent.toggleEndState.bind($parent)"></th>
                                         <th title="Estado Inicial" class="pointer" data-bind="
-                                                html: ($index() === $parent.startState()) ? '&rarr;' : '',
-                                                click: $parent.setStartState.bind($parent, $index())"></th>
+                                                html: ($data === $parent.startState()) ? '&rarr;' : '',
+                                                click: $parent.setStartState.bind($parent)"></th>
                                         <th contenteditable data-bind="text: $data"></th>
                                         <!-- ko foreach: $parent.symbols -->
                                         <td contenteditable></td>

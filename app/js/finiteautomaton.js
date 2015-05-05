@@ -43,10 +43,59 @@ define(['knockout', 'transitiontable'], function(ko, TransitionTable) {
             this.recognition  = ko.pureComputed(this.recognize, this);
         },
 
+        /**
+         * Tenta ler um símbolo da sentença, verificando se é possível ler esse símbolo no estado atual do autômato
+         * e, caso seja possível ler o símbolo, definindo qual será o próximo estado do autômato.
+         *
+         * @param {string} symbol Símbolo que deve ser lido.
+         * @param {object[]} steps Etapas executadas durante a execução. Um novo item será adicionado nesse array.
+         *
+         * @return {boolean} Retorna um indicador se foi possível ou não ler o símbolo a partir do estado atual.
+         */
+        readSymbol: function(symbol, steps) {
+            var possibilities = this.rules.productions[this.currentState];
+
+            if (possibilities && possibilities[symbol]) {
+                var next = possibilities[symbol]();
+
+                if (next) {
+                    steps.push({
+                        currentState: this.currentState,
+                        readSymbol: symbol,
+                        nextState: next
+                    });
+
+                    this.currentState = next;
+                    return true;
+                }
+            }
+
+            return false;
+        },
+
+        /**
+         * Tenta reconhecer a sentença definida utilizando a tabela de transição montada.
+         *
+         * @return {object[]} Etapas que foram executadas, mesmo que a sentença não tenha sido reconhecida.
+         */
         recognize: function() {
             var s = this.sentence();
             var steps = [];
-            steps.push({currentState: 'Q0', readSymbol: 'a', nextState: 'Q1'});
+
+            this.recognized(true);
+            this.currentState = this.rules.startState();
+
+            for (var i = 0, l = s.length; i < l; ++i) {
+                if (!this.readSymbol(s[i], steps)) {
+                    this.recognized(false);
+                    break;
+                }
+            }
+
+            // Terminou em um estado não-terminal, não valida o reconhecimento
+            if (this.rules.endStates.indexOf(this.currentState) === -1) {
+                this.recognized(false);
+            }
 
             return steps;
         }

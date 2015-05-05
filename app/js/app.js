@@ -22,7 +22,7 @@
  * THE SOFTWARE.
  */
 
-require(['knockout', 'jquery', 'grammar', 'finiteautomaton', 'file-saver-js', 'ko-tagsinput'], function(ko, $, Grammar, FiniteAutomaton, saveAs) {
+require(['knockout', 'jquery', 'grammar', 'finiteautomaton', 'file-saver-js', 'ko-tagsinput', 'ko-textcontent'], function(ko, $, Grammar, FiniteAutomaton, saveAs) {
     'use strict';
 
     // Carrega os plugins JavaScript do Bootstrap (usado para as abas)

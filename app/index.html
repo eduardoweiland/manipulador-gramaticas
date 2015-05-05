@@ -199,7 +199,7 @@ THE SOFTWARE.
                                     </tr>
                                     <tr>
                                         <!-- ko foreach: symbols -->
-                                        <th contenteditable data-bind="text: $data"></th>
+                                        <th data-bind="textcontent: $data"></th>
                                         <!-- /ko -->
                                     </tr>
                                     <!-- ko foreach: states -->
@@ -213,7 +213,7 @@ THE SOFTWARE.
                                         <th title="Estado Inicial" class="pointer" data-bind="
                                                 html: ($data === $parent.startState()) ? '&rarr;' : '',
                                                 click: $parent.setStartState.bind($parent)"></th>
-                                        <th contenteditable data-bind="text: $data"></th>
+                                        <th data-bind="textcontent: $data"></th>
                                         <!-- ko foreach: $parent.symbols -->
                                         <td contenteditable></td>
                                         <!-- /ko -->

@@ -25,6 +25,22 @@
 define(['knockout'], function(ko) {
     'use strict';
 
+    /**
+     * Cria um objeto que é utilizado como valor para as produções de um determinado estado.
+     *
+     * O objeto é formado utilizando todos os símbolos como chave e o valor é um observable do Knockout, inicialmente
+     * com valor vazio. O observable é utilizado em cada célula da tabela de transição de estados.
+     *
+     * @param {string[]} symbols Símbolos que serão utilizados como chaves do objeto criado.
+     */
+    function createProductionObject(symbols) {
+        var obj = {}, i, l;
+        for (i = 0, l = symbols.length; i < l; ++i) {
+            obj[symbols[i]] = ko.observable('');
+        }
+        return obj;
+    }
+
     function TransitionTable() {
         this.init.apply(this, arguments);
     }
@@ -41,7 +57,10 @@ define(['knockout'], function(ko) {
             this.startState = ko.observable();
             this.endStates  = ko.observableArray([]);
 
-            this.nextStates = [];
+            // Objeto onde cada chave é o nome de um estado e o valor de cada chave é um
+            // outro objeto onde a chave é o símbolos que pode ser lido e o valor é o próximo
+            // estado do autômato.
+            this.productions = {};
         },
 
         /**
@@ -50,8 +69,11 @@ define(['knockout'], function(ko) {
         addState: function() {
             var state = 'Q' + this.states().length;
 
+            if (!this.productions[state]) {
+                this.productions[state] = createProductionObject(this.symbols());
+            }
+
             this.states.push(state);
-            this.nextStates.push(new Array(this.symbols().length).fill(''));
 
             if (!this.startState()) {
                 this.setStartState(state);
@@ -68,20 +90,22 @@ define(['knockout'], function(ko) {
         addSymbol: function() {
             var len = this.symbols().length;
             var symbol = String.fromCharCode((len % 26) + 97);
-            this.symbols.push(symbol + String(Math.floor(len / 26) || ''));
-            for (var i = 0, l = this.nextStates.length; i < l; ++i) {
-                this.nextStates[i].push('');
+
+            for (var i in this.productions) {
+                this.productions[i][symbol] = ko.observable('');
             }
+
+            this.symbols.push(symbol + String(Math.floor(len / 26) || ''));
         },
 
         /**
          * Remove uma linha (estado) da tabela de transição.
          *
-         * @param {number} index Índice da linha para ser removida, começando em 0.
+         * @param {string} state Nome do estado que deve ser removido da tabela.
          */
-        removeState: function(index) {
-            var state = this.states.splice(index, 1)[0];
-            this.nextStates.splice(index, 1);
+        removeState: function(state) {
+            this.states.splice(this.states.indexOf(state), 1);
+            delete this.productions[state];
 
             if (this.startState() === state) {
                 this.startState(this.states()[0] || false);
@@ -95,12 +119,13 @@ define(['knockout'], function(ko) {
         /**
          * Remove uma coluna (símbolo) da tabela de transição.
          *
-         * @param {number} index Índice da coluna para ser removida, começando em 0.
+         * @param {string} symbol Símbolo para ser removido.
          */
-        removeSymbol: function(index) {
-            this.symbols.splice(index, 1);
-            for (var i = 0, l = this.nextStates.length; i < l; ++i) {
-                this.nextStates[i].splice(index, 1);
+        removeSymbol: function(symbol) {
+            this.symbols.splice(this.symbols.indexOf(symbol), 1);
+
+            for (var i in this.productions) {
+                delete this.productions[i][symbol];
             }
         },
 

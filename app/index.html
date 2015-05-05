@@ -215,10 +215,10 @@ THE SOFTWARE.
                                                 click: $parent.setStartState.bind($parent)"></th>
                                         <th data-bind="textcontent: $data"></th>
                                         <!-- ko foreach: $parent.symbols -->
-                                        <td contenteditable></td>
+                                        <td data-bind="textcontent: $parentContext.$parent.productions[$parentContext.$data][$data]"></td>
                                         <!-- /ko -->
                                         <td>
-                                            <a href="#" data-bind="click: $parent.removeState.bind($parent, $index()) ">
+                                            <a href="#" data-bind="click: $parent.removeState.bind($parent) ">
                                                 <i class="fa fa-times"></i>
                                             </a>
                                         </td>
@@ -228,7 +228,7 @@ THE SOFTWARE.
                                         <th colspan="4"></th>
                                         <!-- ko foreach: symbols -->
                                         <td>
-                                            <a href="#" data-bind="click: $parent.removeSymbol.bind($parent, $index()) ">
+                                            <a href="#" data-bind="click: $parent.removeSymbol.bind($parent) ">
                                                 <i class="fa fa-times"></i>
                                             </a>
                                         </td>

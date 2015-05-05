@@ -93,6 +93,22 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
             this.validationErrors = ko.pureComputed(this.validate,          this);
             this.formalism        = ko.pureComputed(this.toFormalismString, this);
             this.classification   = ko.pureComputed(this.getGrammarClass,   this);
+
+            this.generatedSentences = ko.pureComputed(function() {
+                var a = this.generateSentence(), b, maxIter = 5;
+
+                // Ainda não é possível gerar sentenças (gramática incompleta)
+                if (!a) {
+                    return[];
+                }
+
+                // Loop para gerar uma sentença diferente para b
+                do {
+                    b = this.generateSentence();
+                } while (b === a && --maxIter);
+
+                return [a, b];
+            }, this);
         },
 
         /**
@@ -247,6 +263,48 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
             }
 
             return completed;
+        },
+
+        /**
+         * Gera uma sentença a partir da gramática definida, seguindo as regras de produção de forma aleatória.
+         *
+         * @returns {string} A sentença gerada.
+         * @todo Melhorar a escolha da produção para não ser completamente aleatória para evitar loops.
+         */
+        generateSentence: function() {
+            if (!this.isCompleted()) {
+                return;
+            }
+
+            var sentence = this.productionStartSymbol(),
+                nt       = this.nonTerminalSymbols(),
+                index    = utils.indexOfAny(sentence, nt),
+                maxIter  = 100,
+                replace;
+
+            while (index[0] !== -1 && maxIter--) {
+                replace  = utils.randomItem(this.getProductions(index[1]));
+                sentence = sentence.replace(index[1], replace);
+                index    = utils.indexOfAny(sentence, nt);
+            }
+
+            return sentence;
+        },
+
+        /**
+         * Procura as possíveis produções para um determinado símbolo.
+         *
+         * @param {string} symbol Símbolo para o qual buscar as produções.
+         * @returns {string[]} Conjunto das produções desse símbolo, ou null se o símbolo não possui produções.
+         */
+        getProductions: function(symbol) {
+            var rules = this.productionRules();
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                if (rules[i].leftSide() === symbol) {
+                    return rules[i].rightSide();
+                }
+            }
+            return [];
         },
 
         toJSON: function() {

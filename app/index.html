@@ -165,8 +165,8 @@ THE SOFTWARE.
                                 <i class="fa fa-gears"></i>&nbsp;&nbsp;&nbsp;Sentenças Geradas
                             </h3>
                         </div>
-                        <div class="panel-body">
-                            <div class="placeholder text-muted text-center">Ainda não executado</div>
+                        <div class="panel-body" data-bind="foreach: generatedSentences ">
+                            <div class="text-center" data-bind="text: $data"></div>
                         </div>
                     </div>
                 </div>

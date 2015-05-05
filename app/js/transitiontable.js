@@ -104,10 +104,24 @@ define(['knockout'], function(ko) {
             }
         },
 
+        /**
+         * Define um estado como sendo o início da produção.
+         *
+         * Pode existir apenas um estado inicial na tabela de transição, então este método sobrescreve o valor
+         * anterior e mantém apenas o estado informado como sendo o inicial.
+         *
+         * @param {string} state Nome do estado inicial.
+         */
         setStartState: function(state) {
             this.startState(state);
         },
 
+        /**
+         * Troca a indicação de um estado se ele é ou não um estado final da tabela.
+         *
+         * Podem existir vários estados finais na tabela, então esse método controla apenas o estado informado,
+         * definindo como final se ainda não for e definindo como não final se já foi definido assim.
+         */
         toggleEndState: function(state) {
             var pos = this.endStates.indexOf(state);
             if (pos !== -1) {

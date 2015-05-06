@@ -288,6 +288,9 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
                 index    = utils.indexOfAny(sentence, nt);
             }
 
+            // Remove símbolo vazio de sentença vazia da sentença final
+            sentence = sentence.replace(new RegExp(ProductionRule.EPSILON, 'g'), '');
+
             return sentence;
         },
 

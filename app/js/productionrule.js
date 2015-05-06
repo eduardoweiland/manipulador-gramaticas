@@ -26,18 +26,6 @@ define(['knockout'], function(ko) {
     'use strict';
 
     /**
-     * Símbolo utilizado para representar a sentença vazia.
-     * @const
-     */
-    var EPSILON = String.fromCharCode(0x3B5);
-
-    /**
-     * Símbolo para separar o lado esquerdo do lado direito no formalismo.
-     * @const
-     */
-    var ARROW = String.fromCharCode(0x279C);
-
-    /**
      * Representação de uma única regra de produção dentro de uma gramática.
      *
      * @class
@@ -45,6 +33,20 @@ define(['knockout'], function(ko) {
     function ProductionRule() {
         this.init.apply(this, arguments);
     }
+
+    /**
+     * Símbolo utilizado para representar a sentença vazia.
+     * @const
+     * @static
+     */
+    ProductionRule.EPSILON = String.fromCharCode(0x3B5);
+
+    /**
+     * Símbolo para separar o lado esquerdo do lado direito no formalismo.
+     * @const
+     * @static
+     */
+    ProductionRule.ARROW = String.fromCharCode(0x279C);
 
     ProductionRule.prototype = {
 
@@ -65,7 +67,7 @@ define(['knockout'], function(ko) {
          * Adiciona a sentenca vazia na lista de possíveis produções da regra.
          */
         addEmptySentence: function() {
-            this.rightSide.push(EPSILON);
+            this.rightSide.push(ProductionRule.EPSILON);
         },
 
         /**
@@ -76,7 +78,7 @@ define(['knockout'], function(ko) {
                 r = this.rightSide().join(' | ');
 
             if (l && r) {
-                return l + ' ' + ARROW + ' ' + r;
+                return l + ' ' + ProductionRule.ARROW + ' ' + r;
             }
 
             return '';
@@ -120,7 +122,7 @@ define(['knockout'], function(ko) {
 
             // Lado direito não pode conter a sentença vazia e o comprimento deve ser maior ou igual ao lado esquerdo
             for (var i = 0, l = right.length; i < l; ++i) {
-                if (right[i] === EPSILON || right[i].length < left.length) {
+                if (right[i] === ProductionRule.EPSILON || right[i].length < left.length) {
                     return false;
                 }
             }
@@ -146,7 +148,7 @@ define(['knockout'], function(ko) {
             // Lado direito não pode conter a sentença vazia
             var right = this.rightSide();
             for (var i = 0, l = right.length; i < l; ++i) {
-                if (right[i] === EPSILON) {
+                if (right[i] === ProductionRule.EPSILON) {
                     return false;
                 }
             }
@@ -186,7 +188,7 @@ define(['knockout'], function(ko) {
 
             // Lado direito pode ser um terminal ou um terminal seguido de um não terminal
             for (var i = 0, l = right.length; i < l; ++i) {
-                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1 && right[i] !== EPSILON) {
+                if (t.indexOf(right[i]) === -1 && tnt.indexOf(right[i]) === -1 && right[i] !== ProductionRule.EPSILON) {
                     return false;
                 }
             }

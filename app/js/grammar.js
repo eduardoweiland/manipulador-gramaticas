@@ -121,7 +121,8 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
                 nt  = this.nonTerminalSymbols(),
                 t   = this.terminalSymbols(),
                 p   = this.productionSetSymbol(),
-                s   = this.productionStartSymbol();
+                s   = this.productionStartSymbol(),
+                r   = this.productionRules();
 
             // 1. Símbolos terminais e não terminais precisam ser diferentes
             var intersect = utils.arrayIntersection(nt, t);
@@ -142,11 +143,31 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
                         + 'estar entre os símbolos terminais.');
             }
 
+            // Validações das regras de produção
+            var generators = [],
+                duplicated = [];
+
+            for (var i = 0, l = r.length; i < l; ++i) {
+                var left = r[i].leftSide();
+                if (left) {
+                    if (generators.indexOf(left) !== -1 && duplicated.indexOf(left) === -1) {
+                        duplicated.push(left);
+                    }
+                    else {
+                        generators.push(left);
+                    }
+                }
+            }
+
             // 3. Deve haver uma produção para o símbolo de início de produção
-            // TODO
+            if (s && generators.indexOf(s) === -1) {
+                err.push('Não existe nenhuma produção para o símbolo de início de produção.');
+            }
 
             // 4. Não deve existir mais de uma produção para o mesmo símbolo
-            // TODO
+            if (duplicated.length > 0) {
+                err.push('Existem produções duplicadas (' + duplicated.join(', ') + ').');
+            }
 
             // Retorna a lista de erros de validação.
             return err;

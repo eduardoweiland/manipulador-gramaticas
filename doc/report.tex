@@ -64,9 +64,9 @@ Este artigo relata o processo de desenvolvimento de uma ferramenta para manipula
 contexto. Essa ferramenta é um trabalho desenvolvido na disciplina de Linguagens Formais na Universidade de Santa Cruz
 do Sul.
 
-O ferramenta é dividida em duas partes: a primeira delas consiste em uma interface que permite criar interativamente uma
-gramática do tipo regular ou do tipo livre de contexto; a segunda parte é um reconhecedor do tipo autômato finito,
-capaz de reconhecer as sentenças geradas com a gramática criada na primeira parte.
+O ferramenta é dividida em duas partes: a primeira delas consiste em uma interface que permite criar interativamente
+uma gramática do tipo regular ou do tipo livre de contexto; a segunda parte é um reconhecedor do tipo autômato finito
+determinístico, capaz de reconhecer sentenças a partir de uma definição inicial.
 
 O manipulador de gramática deve permitir a entrada de uma gramática qualquer pelo usuário, através de campos para a
 definição dos símbolos não terminais e terminais, o símbolo de início de produção e todo o conjunto de produções. A
@@ -74,8 +74,9 @@ partir dessas entradas, é esperado que o programa verifique se a gramática ent
 classifique-a na hierarquia de Chomsky e gere automaticamente duas sentenças para essa gramática.
 
 O autômato finito que atua como reconhecedor deve ser representado através de uma tabela de transição de estados, que
-deve ser editável. O autômato deve demonstrar passo-a-passo o processo de reconhecimento para as sentenças geradas pelo
-manipulador de gramática.
+deve ser editável. Nesta tabela são definidos os símbolos reconheciso pelo autômato e os estados utilizados durante o
+reconhecimento, bem como todas as regras de leitura dos símbolos e definição do próximo estado. O autômato deve
+demonstrar passo-a-passo o processo de reconhecimento das sentenças informadas pelo usuário.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -108,12 +109,47 @@ deste diretório, o arquivo \texttt{index.html} e o diretório \texttt{css} são
 resultados na tela. A lógica da execução está toda implementada nos arquivos localizado dentro da pasta \texttt{js}.
 
 A ligação entre a exibição dos dados na interface e a lógica da ferramente é feita pela ferramenta Knockout
-\cite{knockout}. Essa ferramenta é parte importante do \texttt{software} desenvolvido, visto que é a ferramenta que
+\cite{knockout}. Essa ferramenta é parte importante do \textit{software} desenvolvido, visto que é a ferramenta que
 centraliza a entrada de dados por parte do usuário e a exibição dos resultados, tudo gerenciado de forma automática.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+A implementação do trabalho foi dividida em diversas classes, cada uma delas responsáveis por realizar alguma tarefa
+específica pré-determinada. A integração destas classes é feita primariamente utilizando referências para instâncias
+das outras classes em propriedades do objeto em questão.
 
-\section{Conclusão}
+Foram criadas quatro classes para representar as diversas ramificações existentes para a execução da tarefa designada
+para este trabalho. São elas:
+
+\begin{description}
+  \item[ProductionRule]
+  Representação de uma única regra de produção que compõe a gramática à qual a regra pertence. Não depende diretamente
+  de outras classes, no entanto recebe por parâmetro no construtor uma referência para a gramática da qual é parte
+  integrante, utilizando-se dessa referência para acessar algumas informações relevantes às suas atribuições.
+
+  \item[Grammar]
+  Responsável pelas tarefas de mais alto nível dentro da criação da gramática, validação, classificação e geração de
+  sentenças. Depende exclusivamente da classe ProductionRule.
+
+  \item[TransitionTable]
+  É a classe que implementa as tarefas mais básicas para a edição e o funcionamento geral de autômato finito. Armazena
+  internamente todas as definição da tabela de transição de estados informadas pelo usuário na interface do
+  \textit{software} desenvolvido, sendo referência para a implementação da lógica de reconhecimento do autômato.
+
+  \item[FiniteAutomaton]
+  Implementa a funcionalidade de leitura de uma sentença e reconhecimento da mesma, armazenando todas as etapas executadas
+  para que sejam exibidas na interface, caso o reconhecimento seja executado com êxito.
+\end{description}
+
+\subsection{Interface}
+
+A interface do usuário foi desenvolvida utilizando-se a biblioteca Bootstrap \cite{bootstrap}. O Bootstrap é formado
+por diversos componentes que permitem criar uma interface \textit{web} adaptada a diversas resoluções de tela
+(\textit{design} responsivo) de forma simples e rápida.
+
+A página do \textit{software}, ao ser aberta, apresenta duas abas, sendo que a primeira delas já se encontra selecionada.
+Essas duas abas permitem acessar as duas partes do trabalho desenvolvido, e, em cada uma delas, preencher as informações
+necessárias e visualizar todos os resultados gerados sem a necessidade de novas interações para que eles sejam visíveis.
+Isto é, no momento em que os dados de entrada são inseridos no software, se estes já forem suficientes para processar e
+gerar um resultado, isso já será feito automaticamente.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

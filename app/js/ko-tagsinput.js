@@ -28,7 +28,6 @@ define(['knockout', 'jquery', 'bootstrap-tagsinput'], function(ko, $) {
     ko.bindingHandlers.tagsinput = {
         init: function(element) {
             $(element).tagsinput({
-                // TODO: binding para configurar isso
                 confirmKeys: [13, 32, 44, 124]
             });
             $(element).next('.bootstrap-tagsinput').find('input')

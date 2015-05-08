@@ -290,7 +290,6 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
          * Gera uma sentença a partir da gramática definida, seguindo as regras de produção de forma aleatória.
          *
          * @returns {string} A sentença gerada.
-         * @todo Melhorar a escolha da produção para não ser completamente aleatória para evitar loops.
          */
         generateSentence: function() {
             if (!this.isCompleted()) {

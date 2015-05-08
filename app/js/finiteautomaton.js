@@ -98,6 +98,10 @@ define(['knockout', 'transitiontable'], function(ko, TransitionTable) {
             }
 
             return steps;
+        },
+
+        toJSON: function() {
+            return this.rules;
         }
 
     };

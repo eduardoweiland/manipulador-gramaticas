@@ -22,19 +22,20 @@
  * THE SOFTWARE.
  */
 
-require(['knockout', 'jquery', 'grammar', 'file-saver-js', 'ko-tagsinput', 'bootstrap-tagsinput'], function(ko, $, Grammar, saveAs) {
+require(['knockout', 'jquery', 'grammar', 'finiteautomaton', 'file-saver-js', 'ko-tagsinput', 'ko-textcontent'], function(ko, $, Grammar, FiniteAutomaton, saveAs) {
     'use strict';
 
     // Carrega os plugins JavaScript do Bootstrap (usado para as abas)
     require(['libs/bootstrap/dist/js/bootstrap.min.js']);
 
     function App() {
-        this.grammar = new Grammar();
+        this.grammar   = new Grammar();
+        this.automaton = new FiniteAutomaton();
     }
 
     App.prototype = {
         save: function() {
-            var json = ko.toJSON(this.grammar, null, 2);
+            var json = ko.toJSON(this, null, 2);
             saveAs(new Blob([json], {type: 'application/json'}), 'Gramática.json');
         },
 
@@ -47,23 +48,30 @@ require(['knockout', 'jquery', 'grammar', 'file-saver-js', 'ko-tagsinput', 'boot
 
             var reader = new FileReader();
             reader.onload = function() {
-                var json;
                 try {
-                    json = JSON.parse(reader.result);
+                    var json = JSON.parse(reader.result);
+
+					// Gramática
+		            model.grammar.nonTerminalSymbols(json.grammar.nonTerminalSymbols);
+		            model.grammar.terminalSymbols(json.grammar.terminalSymbols);
+		            model.grammar.productionSetSymbol(json.grammar.productionSetSymbol);
+		            model.grammar.productionStartSymbol(json.grammar.productionStartSymbol);
+
+		            model.grammar.productionRules([]);
+		            for (var i = 0, l = json.grammar.productionRules.length; i < l; ++i) {
+		                model.grammar.addProductionRule(json.grammar.productionRules[i]);
+		            }
+
+		            // Reconhecedor
+		            model.automaton.rules.productions = json.automaton.productions;
+		            model.automaton.rules.symbols(json.automaton.symbols);
+		            model.automaton.rules.states(json.automaton.states);
+		            model.automaton.rules.startState(json.automaton.startState);
+		            model.automaton.rules.endStates(json.automaton.endStates);
                 }
                 catch (e) {
                     alert('Arquivo inválido');
                     return;
-                }
-
-                model.grammar.nonTerminalSymbols(json.nonTerminalSymbols);
-                model.grammar.terminalSymbols(json.terminalSymbols);
-                model.grammar.productionSetSymbol(json.productionSetSymbol);
-                model.grammar.productionStartSymbol(json.productionStartSymbol);
-
-                model.grammar.productionRules([]);
-                for (var i = 0, l = json.productionRules.length; i < l; ++i) {
-                    model.grammar.addProductionRule(json.productionRules[i]);
                 }
             };
 

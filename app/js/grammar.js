@@ -93,6 +93,22 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
             this.validationErrors = ko.pureComputed(this.validate,          this);
             this.formalism        = ko.pureComputed(this.toFormalismString, this);
             this.classification   = ko.pureComputed(this.getGrammarClass,   this);
+
+            this.generatedSentences = ko.pureComputed(function() {
+                var a = this.generateSentence(), b, maxIter = 5;
+
+                // Ainda não é possível gerar sentenças (gramática incompleta)
+                if (!a) {
+                    return[];
+                }
+
+                // Loop para gerar uma sentença diferente para b
+                do {
+                    b = this.generateSentence();
+                } while (b === a && --maxIter);
+
+                return [a, b];
+            }, this);
         },
 
         /**
@@ -105,7 +121,8 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
                 nt  = this.nonTerminalSymbols(),
                 t   = this.terminalSymbols(),
                 p   = this.productionSetSymbol(),
-                s   = this.productionStartSymbol();
+                s   = this.productionStartSymbol(),
+                r   = this.productionRules();
 
             // 1. Símbolos terminais e não terminais precisam ser diferentes
             var intersect = utils.arrayIntersection(nt, t);
@@ -126,11 +143,31 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
                         + 'estar entre os símbolos terminais.');
             }
 
+            // Validações das regras de produção
+            var generators = [],
+                duplicated = [];
+
+            for (var i = 0, l = r.length; i < l; ++i) {
+                var left = r[i].leftSide();
+                if (left) {
+                    if (generators.indexOf(left) !== -1 && duplicated.indexOf(left) === -1) {
+                        duplicated.push(left);
+                    }
+                    else {
+                        generators.push(left);
+                    }
+                }
+            }
+
             // 3. Deve haver uma produção para o símbolo de início de produção
-            // TODO
+            if (s && generators.indexOf(s) === -1) {
+                err.push('Não existe nenhuma produção para o símbolo de início de produção.');
+            }
 
             // 4. Não deve existir mais de uma produção para o mesmo símbolo
-            // TODO
+            if (duplicated.length > 0) {
+                err.push('Existem produções duplicadas (' + duplicated.join(', ') + ').');
+            }
 
             // Retorna a lista de erros de validação.
             return err;
@@ -247,6 +284,51 @@ define(['knockout', 'productionrule', 'utils'], function(ko, ProductionRule, uti
             }
 
             return completed;
+        },
+
+        /**
+         * Gera uma sentença a partir da gramática definida, seguindo as regras de produção de forma aleatória.
+         *
+         * @returns {string} A sentença gerada.
+         * @todo Melhorar a escolha da produção para não ser completamente aleatória para evitar loops.
+         */
+        generateSentence: function() {
+            if (!this.isCompleted()) {
+                return;
+            }
+
+            var sentence = this.productionStartSymbol(),
+                nt       = this.nonTerminalSymbols(),
+                index    = utils.indexOfAny(sentence, nt),
+                maxIter  = 100,
+                replace;
+
+            while (index[0] !== -1 && maxIter--) {
+                replace  = utils.randomItem(this.getProductions(index[1]));
+                sentence = sentence.replace(index[1], replace);
+                index    = utils.indexOfAny(sentence, nt);
+            }
+
+            // Remove símbolo vazio de sentença vazia da sentença final
+            sentence = sentence.replace(new RegExp(ProductionRule.EPSILON, 'g'), '');
+
+            return sentence;
+        },
+
+        /**
+         * Procura as possíveis produções para um determinado símbolo.
+         *
+         * @param {string} symbol Símbolo para o qual buscar as produções.
+         * @returns {string[]} Conjunto das produções desse símbolo, ou null se o símbolo não possui produções.
+         */
+        getProductions: function(symbol) {
+            var rules = this.productionRules();
+            for (var i = 0, l = rules.length; i < l; ++i) {
+                if (rules[i].leftSide() === symbol) {
+                    return rules[i].rightSide();
+                }
+            }
+            return [];
         },
 
         toJSON: function() {

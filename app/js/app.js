@@ -51,23 +51,30 @@ require(['knockout', 'jquery', 'grammar', 'finiteautomaton', 'file-saver-js', 'k
                 try {
                     var json = JSON.parse(reader.result);
 
-					// Gramática
-		            model.grammar.nonTerminalSymbols(json.grammar.nonTerminalSymbols);
-		            model.grammar.terminalSymbols(json.grammar.terminalSymbols);
-		            model.grammar.productionSetSymbol(json.grammar.productionSetSymbol);
-		            model.grammar.productionStartSymbol(json.grammar.productionStartSymbol);
+                    // Gramática
+                    model.grammar.nonTerminalSymbols(json.grammar.nonTerminalSymbols);
+                    model.grammar.terminalSymbols(json.grammar.terminalSymbols);
+                    model.grammar.productionSetSymbol(json.grammar.productionSetSymbol);
+                    model.grammar.productionStartSymbol(json.grammar.productionStartSymbol);
 
-		            model.grammar.productionRules([]);
-		            for (var i = 0, l = json.grammar.productionRules.length; i < l; ++i) {
-		                model.grammar.addProductionRule(json.grammar.productionRules[i]);
-		            }
+                    model.grammar.productionRules([]);
+                    for (var i = 0, l = json.grammar.productionRules.length; i < l; ++i) {
+                        model.grammar.addProductionRule(json.grammar.productionRules[i]);
+                    }
 
-		            // Reconhecedor
-		            model.automaton.rules.productions = json.automaton.productions;
-		            model.automaton.rules.symbols(json.automaton.symbols);
-		            model.automaton.rules.states(json.automaton.states);
-		            model.automaton.rules.startState(json.automaton.startState);
-		            model.automaton.rules.endStates(json.automaton.endStates);
+                    // Reconhecedor
+                    model.automaton.rules.productions = {};
+                    for (var state in json.automaton.productions) {
+                        model.automaton.rules.productions[state] = {};
+                        for (var symbol in json.automaton.productions[state]) {
+                            model.automaton.rules.productions[state][symbol] = ko.observable(json.automaton.productions[state][symbol]);
+                        }
+                    }
+
+                    model.automaton.rules.symbols(json.automaton.symbols);
+                    model.automaton.rules.states(json.automaton.states);
+                    model.automaton.rules.startState(json.automaton.startState);
+                    model.automaton.rules.endStates(json.automaton.endStates);
                 }
                 catch (e) {
                     alert('Arquivo inválido');

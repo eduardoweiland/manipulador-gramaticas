@@ -24,7 +24,7 @@
 \renewcommand\listingscaption{Listagem}
 \providecommand*{\listingautorefname}{Listagem}
 
-\newmintedfile{js}{linenos,numbersep=5pt,frame=leftline,framesep=2mm,fontsize=\codefontsize}
+\newminted{js}{linenos,numbersep=5pt,frame=leftline,framesep=2mm,fontsize=\codefontsize}
 
 % http://tex.stackexchange.com/questions/12428/code-spanning-over-two-pages-with-minted-inside-listing-with-caption
 \newenvironment{code}{\captionsetup{type=listing}}{}
@@ -104,9 +104,9 @@ necessidade de realizar a instalação de outras ferramentas e dependências. O 
 
 \subsection{Organização do Projeto}
 
-O código fonte desenvolvido nesse trabalho está localizado dentre do diretório \texttt{app} na raiz do projeto. Dentro
-deste diretório, o arquivo \texttt{index.html} e o diretório \texttt{css} são responsáveis apenas pela apresentação dos
-resultados na tela. A lógica da execução está toda implementada nos arquivos localizado dentro da pasta \texttt{js}.
+O código fonte desenvolvido nesse trabalho está localizado dentro do diretório \texttt{app} na raiz do projeto. Neste
+deste diretório, o arquivo \texttt{index.html} e o subdiretório \texttt{css} são responsáveis apenas pela apresentação
+dos resultados na tela. A lógica da execução está toda implementada nos arquivos localizado dentro da pasta \texttt{js}.
 
 A ligação entre a exibição dos dados na interface e a lógica da ferramente é feita pela ferramenta Knockout
 \cite{knockout}. Essa ferramenta é parte importante do \textit{software} desenvolvido, visto que é a ferramenta que
@@ -139,6 +139,62 @@ para este trabalho. São elas:
   para que sejam exibidas na interface, caso o reconhecimento seja executado com êxito.
 \end{description}
 
+Essas classes foram implementadas no formato de módulos para o RequireJS, uma das bibliotecas que foram utilizadas no
+\textit{software}, que é responsável por gerenciar as dependências entre os módulos e o carregamento assíncrono dos
+arquivos quando necessário. Um exemplo de como um módulo do RequireJS é definido é exibido na \autoref{lst:modulo-rjs}
+
+\begin{code}
+  \caption{Exemplo de definição de módulo do RequireJS}
+  \label{lst:modulo-rjs}
+  \begin{jscode}
+define(['knockout'], function(ko) {
+    'use strict';
+
+    // ...
+
+    function TransitionTable() {
+        this.init.apply(this, arguments);
+    }
+
+    // ...
+
+    return TransitionTable;
+});
+  \end{jscode}
+\end{code}
+
+O módulo definido na \autoref{lst:modulo-rjs} pode ser utilizado em outros módulos apenas referenciando o nome do
+arquivo em que ele está implementado. Desta forma, é possível manter o código-fonte melhor organizado e modular,
+facilitando o entendimento do mesmo.
+
+Nenhuma das classes desenvolvidas utiliza herança, visto que o sistema é muito específico e, dessa forma, não há
+vantagens significativas em criar generalizações para os objetos manipulados. Assim sendo, todos os módulos definem
+uma classe com seus devidos atributos e os métodos adicionados ao protótipo e, por fim, apenas exportam o construtor
+desta classe.
+
+As dependências necessárias são integradas utilizando a técnica de composição, sendo que assim uma referência a um
+objeto que é dependência poderá ser exportada juntamente ao módulos, mas seu construtor não será exposto externamente,
+mantendo o isolamento entre os diversos componentes do \textit{software}. Ou seja, por exemplo, quem instanciar um
+objeto da classe \texttt{Grammar} não precisa atentar para o fato de que um objeto do tipo \texttt{ProductionRule} é
+utilizado para auxiliar nas tarefas necessárias.
+
+\subsection{Observáveis}
+
+Uma das principais funcionalidades oferecidas pelo Knockout \cite{knockout} é o conceito de \textit{observables}, ou
+observáveis. Essa ideia consiste de objetos JavaScript que podem ser associados a elementos no \texttt{DOM} e a
+biblioteca se responsabiliza por atualizar os valores tanto das variáveis no JavaScript quanto dos elementos no
+\texttt{DOM} todas as vezes que ocorre alguma modificação do valor de forma automática.
+
+Essa técnica também é conhecida como \textit{two-way binding}, ou ligação de duas vias. Com isso, quando um campo de
+entrada de texto é "ligado" a uma variável string no JavaScript, por exemplo, todas as vezes que a variável for
+modificada programaticamente, essas modificações também serão visíveis no campo da tela. O contrário funciona da mesma
+forma, sendo que todas as vezes que o usuário modificar o valor do campo na interface, a variável no JavaScript será
+atualizada.
+
+Outra vantagem introduzida pelo Knockout são os valores computados (\textit{computed}). São valores que, como o nome
+sugere, são calculados a partir de outros dados. Geralmente, esses dados também são observáveis, e, nesses casos, os
+valores computados também são recalculados todas as vezes que um observável do qual ele depende é atualizado.
+
 \subsection{Interface}
 
 A interface do usuário foi desenvolvida utilizando-se a biblioteca Bootstrap \cite{bootstrap}. O Bootstrap é formado
@@ -150,6 +206,28 @@ Essas duas abas permitem acessar as duas partes do trabalho desenvolvido, e, em 
 necessárias e visualizar todos os resultados gerados sem a necessidade de novas interações para que eles sejam visíveis.
 Isto é, no momento em que os dados de entrada são inseridos no software, se estes já forem suficientes para processar e
 gerar um resultado, isso já será feito automaticamente.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/manipulador.png}
+  \caption{Tela principal do manipulador de gramáticas}
+  \label{fig:manipulador}
+\end{figure}
+
+Na \autoref{fig:manipulador}, é exibida a interface inicial do software que é também a tela principal do manipulador
+de gramáticas. Nessa interface as gramáticas são construídas pelo usuário de forma intuitiva a partir do preenchimento
+dos campos do lado esquerdo da tela, e do lado direito são exibidos os resultados obtidos da análise da gramática criada.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{images/reconhecedor.png}
+  \caption{Tela com o autômato finito e o reconhecimento de uma sentença}
+  \label{fig:reconhecedor}
+\end{figure}
+
+Já na \autoref{fig:reconhecedor}, pode-se ver a segunda aba do sistema que é a interface do autômato finito, representado
+através de uma tabela de transição de estados editável do lado esquerdo da tela. O lado direito, novamente, é onde os
+resultados são exibidos, nesse caso, as etapas de reconhecimento de uma sentença.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
